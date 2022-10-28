@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/login_img_logo"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="48dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ufca" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_txt_input_layout_email"
+        style="@style/Theme.MyApplication.Button.FormEditTextLayout"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username"
+            style="@style/Theme.MyApplication.FormEditText"
+            android:autofillHints="@null"
+            android:hint="@string/prompt_username"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_txt_input_layout_password"
+        style="@style/Theme.MyApplication.Button.FormEditTextLayout"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/password"
+            style="@style/Theme.MyApplication.FormEditText"
+            android:autofillHints="@null"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Login automático"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        style="@style/Theme.MyApplication.ProgressBar"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/login_btn_enter"
+        style="@style/Theme.MyApplication.Button"
+        android:background="@color/blue_disabled"
+        android:enabled="false"
+        android:text="@string/enter" >
+
+    </Button>
+
+    <FrameLayout
+        style="@style/Theme.MyApplication.FormContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/gray_border" />
+
+        <TextView
+            style="@style/Theme.MyApplication.TextViewBase"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:padding="8dp"
+            android:text="@string/or" />
+    </FrameLayout>
+
+</LinearLayout>
