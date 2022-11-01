@@ -1,17 +1,25 @@
 package com.derleymad.myapplication.model
 
 data class TicketDetail(
-    val nome : String,
-    val setor : String,
-    val email : String,
-    val ticketNumber : String,
+    val id : String,
     val descricao : String,
-    val campus : String,
-    val numero : String,
-    val firstMessage : String,
-    val prioridade : String,
     val status : String,
-    val blocoSala : String,
-    val message : List<Mensagens>
+    val prioridade : String,
+    val setor : String,
+    val dataCriacao : String,
+    val email : String,
+    val numeroTicket : String,
+    val numero : String,
+    val para : String,
+    val slaPlan : String,
+    val dueDate : String,
+    val ultimaMensagem : String,
+    val ultimaResposta : String,
+    val servicos : String,
+    val campus : String,
+    val sala : String,
+    val bloco : String,
+    val setorSolicitante: String,
+    val nome : String
 
 )

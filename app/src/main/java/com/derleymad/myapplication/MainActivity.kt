@@ -5,12 +5,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.derleymad.myapplication.adapter.ViewPagerAdapter
 import com.derleymad.myapplication.databinding.ActivityMainBinding
 import com.derleymad.myapplication.model.Ticket
@@ -23,6 +18,9 @@ import org.jsoup.select.Elements
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var username : String
+    private lateinit var password : String
+    val tickets = mutableListOf<List<Ticket>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreference =  getSharedPreferences("credentials", Context.MODE_PRIVATE)
 
-        loginAndGetTickets(sharedPreference.getString("username","noen").toString(),
-            sharedPreference.getString("password","none").toString())
-
+        username = sharedPreference.getString("username","noen").toString()
+        password = sharedPreference.getString("password","none").toString()
+        loginAndGetTickets(username,password)
     }
 
         fun loginAndGetTickets(username: String,password: String) {
@@ -44,12 +42,11 @@ class MainActivity : AppCompatActivity() {
         val urlMeus =
             "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&status=assigned"
         val urlFechados =
-            "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&status=closed"
+            "https://atendimento.ufca.edu.br/scp/tickets.php?status=closed"
         val urlRespondidos =
             "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&status=answered"
 
         val links = mutableListOf(urlMeus,urlAbertos,urlRespondidos,urlFechados)
-        val tickets = mutableListOf<List<Ticket>>()
 
         try {
             Thread{
@@ -113,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         listFechados: List<Ticket>,
     ) {
         binding.progressBar.visibility = View.GONE
-        binding.tabs
+        binding.viewPager.adapter?.notifyDataSetChanged()
         binding.viewPager.adapter =
             ViewPagerAdapter(
                 this@MainActivity,
