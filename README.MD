@@ -1,3 +1,3 @@
-![demo](images/demo_login.PNG)
-![demo](images/demo_tickets.PNG)
-![demo](images/chat.PNG)
+![demo](images/demo_login.jpeg)
+![demo](images/demo_tickets.jpeg)
+![demo](images/chat.jpeg)
