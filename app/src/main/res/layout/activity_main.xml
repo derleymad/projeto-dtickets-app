@@ -8,61 +8,41 @@ tools:context=".MainActivity">
 
 <com.google.android.material.appbar.AppBarLayout
     android:id="@+id/header"
+    app:elevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/blue_enabled">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
         app:layout_scrollFlags="scroll|enterAlways">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+
                 android:gravity="center_vertical"
+                android:background="@color/blue_enabled"
                 android:orientation="horizontal"
                 android:weightSum="1">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:src="@drawable/ic_baseline_content_paste_search_24" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:text="Procurar por tickets" />
+                    android:layout_weight="0.9"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:text="Dtickets" />
+                <ImageView
+                    android:id="@+id/searchIcon"
+                    android:src="@drawable/ic_baseline_search_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="8dp"
-                    android:layout_weight="0.1"
-                    app:cardCornerRadius="48dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_baseline_person_16" />
-                </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>
 
@@ -76,10 +56,10 @@ tools:context=".MainActivity">
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:tabBackground="@color/white"
+        app:tabBackground="@color/blue_enabled"
         app:tabGravity="fill"
         app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/green_ufca"
+        app:tabIndicatorColor="@color/white"
         app:tabIconTint="@color/tab_icon_background"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="4dp"

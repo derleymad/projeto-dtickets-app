@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.TicketActivity
-import com.derleymad.myapplication.adapter.TicketsRespondidosAdapter
+import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentMeusBinding
 import com.derleymad.myapplication.model.Ticket
 
@@ -37,7 +37,7 @@ class MeusFragment(val listMeus: List<Ticket>,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvMeus.adapter= TicketsRespondidosAdapter(listMeus) { it ->
+        binding.rvMeus.adapter= TicketsAdapter(listMeus) { it ->
             val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)

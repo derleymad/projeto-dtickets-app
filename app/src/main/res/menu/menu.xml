@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_atribuir_para_mim"
+        android:title="Atribuir para mim"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/atribuir_para_alguem"
+        android:title="Atribuir para alguém"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/fechar_ticket"
+        android:title="Fechar ticket"
+        app:showAsAction="never"/>
+</menu>

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.TicketActivity
-import com.derleymad.myapplication.adapter.TicketsRespondidosAdapter
+import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.model.Ticket
 
 
@@ -34,7 +34,7 @@ class AbertosFragment(val listAbertos : List<Ticket>,
         super.onViewCreated(view, savedInstanceState)
 
         val rv = view.findViewById<RecyclerView>(R.id.rv_abertos)
-        rv.adapter = TicketsRespondidosAdapter(listAbertos) { it ->
+        rv.adapter = TicketsAdapter(listAbertos) { it ->
             val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)

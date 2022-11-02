@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/container_card_view"
-        app:cardCornerRadius="32dp"
+        app:cardCornerRadius="10dp"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:foreground="?android:attr/selectableItemBackground"
@@ -22,45 +22,57 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/background_priority"
             android:padding="16dp"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/priority_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Prioridade - "
+                android:textColor="@color/gray_text"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/data" />
 
             <TextView
                 android:id="@+id/de"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_person_16"
                 android:text=""
-                android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintTop_toTopOf="@+id/priority"
                 tools:text="ANTONY FRANK ALVES..." />
 
             <TextView
                 android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:drawableEnd="@drawable/ic_baseline_calendar_today_24"
-                android:text=""
                 android:maxLength="10"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text=""
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description"
                 tools:text="12/12/2022" />
 
             <TextView
                 android:id="@+id/para"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:drawableStart="@drawable/ic_baseline_person_16"
                 android:text=""
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/data"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="José Ulisses da Silva Filho" />
@@ -69,71 +81,69 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:drawableStart="@drawable/ic_baseline_tag_24"
+                android:layout_marginStart="8dp"
                 android:text=""
-                android:textColor="@color/marron_ufca"
-                android:textSize="18sp"
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="123456" />
+                app:layout_constraintBottom_toBottomOf="@+id/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/description"
+                app:layout_constraintTop_toTopOf="@+id/description"
+                tools:text="#123456" />
 
             <TextView
                 android:id="@+id/priority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:text=""
-                android:textColor="@color/black"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/number"
-                app:layout_constraintTop_toBottomOf="@+id/description"
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/priority_static"
+                app:layout_constraintStart_toEndOf="@+id/priority_static"
+                app:layout_constraintTop_toTopOf="@+id/priority_static"
                 tools:text="Normal" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Formatar computador"
-                android:textAllCaps="true"
-                android:textColor="@color/marron_ufca"
+                android:maxEms="12"
+                android:text="Formatar computador asd assd assd asds assd asd aassd asd assd"
+                android:textAllCaps="false"
+                android:textColor="@color/textBlue"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/para" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="De:"
+                android:text="De - "
+                android:textColor="@color/gray_text"
                 android:textSize="10sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/de"
                 app:layout_constraintEnd_toStartOf="@+id/de"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/priority"
                 app:layout_constraintTop_toTopOf="@+id/de" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Para:"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/para"
+                android:text="Para - "
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/para" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

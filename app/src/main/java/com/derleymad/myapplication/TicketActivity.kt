@@ -13,7 +13,9 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.adapter.TicketMensagemAdapter
 import com.derleymad.myapplication.databinding.ActivityTicketBinding
@@ -32,6 +34,7 @@ class TicketActivity : AppCompatActivity() {
     private lateinit var ticketDetail : TicketDetail
     private lateinit var username : String
     private lateinit var password: String
+    val msgs = mutableListOf<Mensagem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +54,103 @@ class TicketActivity : AppCompatActivity() {
         val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
+
+        binding.back.setOnClickListener {
+            finish()
+        }
+        binding.btnSend.setOnClickListener {
+            if(binding.editMessage.text.isNotEmpty()){
+                binding.btnSend.visibility = View.GONE
+                binding.editMessage.setTextColor(resources.getColor(R.color.gray_text))
+                loginAndPostMessage(binding.editMessage.text.toString(),id)
+
+            }
+        }
+        binding.btnScrollDown.setOnClickListener {
+            binding.rvMensagens.smoothScrollToPosition(msgs.size-1)
+        }
+
+        binding.btnMore.setOnClickListener {
+            val popupMenu: PopupMenu = PopupMenu(this,binding.btnMore)
+            popupMenu.menuInflater.inflate(R.menu.menu,popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    R.id.action_atribuir_para_mim ->
+                        Toast.makeText(this@TicketActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.atribuir_para_alguem ->
+                        Toast.makeText(this@TicketActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.fechar_ticket ->
+                        loginAndCloseTicket(id,"Atendimento realizado, fechando ticket!")
+                }
+                true
+            })
+            popupMenu.show()
+        }
+
+
         loginAndGetTicket(username,password,id)
 
 
-        binding.btnCloseTicket.setOnClickListener {
-            if(ticketDetail.status=="Closed"){
-                Log.i("fechado","ticket fechado ja")
-            }else{
-                openDialogAndCloseTicket(ticketDetail)
-                Log.i("fechando","fechando ticket")
+
+//        binding.btnCloseTicket.setOnClickListener {
+//            if(ticketDetail.status=="Closed"){
+//                Log.i("fechado","ticket fechado ja")
+//            }else{
+//                openDialogAndCloseTicket(ticketDetail)
+//                Log.i("fechando","fechando ticket")
+//            }
+//        }
+    }
+
+    private fun loginAndPostMessage(message: String,id:String) {
+
+//        binding.btnProgress.visibility = View.VISIBLE
+//        binding.btnCloseTicket.visibility = View.INVISIBLE
+        val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
+        binding.webView.clearCache(true)
+        binding.webView.loadUrl(url)
+        binding.webView.settings.setJavaScriptEnabled(true)
+        var firstTime = true
+
+        binding.webView.loadUrl("javascript:{" +
+                "ins=document.getElementsByTagName('input');" +
+                "ins[2].value='$username';" +
+                "ins[3].value='$password';" +
+                "ins[4].click();" +
+                "};" )
+
+        binding.webView.webViewClient = object  : WebViewClient(){
+            override fun onPageFinished(view: WebView?, url: String?) {
+                binding.webView.loadUrl("javascript:{" +
+                        "document.getElementById('response').value = '$message';"+
+                        "document.getElementsByClassName('btn_sm')[0].click();"+
+                        "};" )
+                firstTime = false
             }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                if(!firstTime){
+                    binding.webView.stopLoading()
+                    msgs.add(
+                        Mensagem(
+                            data="agora",
+                            status="aberto",
+                            de="Você",
+                            mensagem = "$message"
+                        )
+
+                    )
+                    binding.editMessage.setTextColor(resources.getColor(R.color.black))
+                    binding.editMessage.text.clear()
+                    binding.btnSend.visibility = View.VISIBLE
+                    binding.rvMensagens.adapter?.notifyItemInserted(msgs.size-1)
+                    binding.rvMensagens.scrollToPosition(msgs.size-1)
+                }
+                super.onPageStarted(view, url, favicon)
+            }
+
         }
+
     }
 
     fun openDialogAndCloseTicket(ticket: TicketDetail){
@@ -147,7 +236,6 @@ class TicketActivity : AppCompatActivity() {
 
                 val qtdTickets = content.select("#threads").select("li").select("a").text()
                 val tableMsg : Elements = content.select("#ticket_thread").select("table")
-                val msgs = mutableListOf<Mensagem>()
 
                 for (i in tableMsg){
                     val data = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[0].wholeText()
@@ -192,22 +280,21 @@ class TicketActivity : AppCompatActivity() {
 
 
                     if(status == "Closed"){
-                        binding.btnCloseTicket.text = "Reabrir"
+                        //btn close mudar texto para reabrir
                     }
 
                     binding.progressBar.visibility = View.INVISIBLE
                     binding.mainContainer.visibility = View.VISIBLE
                     binding.rvMensagens.adapter = TicketMensagemAdapter(msgs)
                     binding.rvMensagens.layoutManager = LinearLayoutManager(this@TicketActivity)
-                    binding.nome.text = ticketDetail.descricao
-                    binding.setor.text = ticketDetail.setorSolicitante
-                    binding.email.text = ticketDetail.email
+                    binding.nome.text = ticketDetail.nome
+                    binding.ticketDescription.text = ticketDetail.descricao
                     binding.campus.text = ticketDetail.campus
                     binding.numero.text = ticketDetail.numero
                     binding.number.text = ticketDetail.numeroTicket
                     binding.status.text = ticketDetail.status
-                    binding.prioridade.text = prioridade
                     binding.sala.text = "$bloco-$sala"
+
                 }
 
             }.start()
@@ -217,8 +304,8 @@ class TicketActivity : AppCompatActivity() {
     }
 
     fun loginAndCloseTicket(id:String, message : String){
-        binding.btnProgress.visibility = View.VISIBLE
-        binding.btnCloseTicket.visibility = View.INVISIBLE
+
+        binding.progressBar.visibility = View.VISIBLE
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)
         binding.webView.loadUrl(url)
@@ -233,9 +320,9 @@ class TicketActivity : AppCompatActivity() {
         binding.webView.webViewClient = object  : WebViewClient(){
             override fun onPageFinished(view: WebView?, url: String?) {
                 binding.webView.loadUrl("javascript:{" +
-                        "document.getElementById('reply_ticket_status').click();"+
-                        "document.getElementById('response').value = '$message';"+
-                        "document.getElementsByClassName('btn_sm')[0].click();"+
+                        "document.getElementById('ticket-close').click();"+
+                        "document.getElementById('ticket_status_notes').value = '$message';"+
+                        "document.querySelectorAll('input')[45].click();"+
                         "};" )
                 firstTime = false
             }
@@ -243,15 +330,17 @@ class TicketActivity : AppCompatActivity() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 if(!firstTime){
                     binding.webView.stopLoading()
-                    binding.btnProgress.visibility = View.INVISIBLE
-                    binding.btnCloseTicket.text = "Reabrir"
-                    binding.btnCloseTicket.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.INVISIBLE
+                    // REFRESH MAIN ACTIVITY
+                    binding.rvMensagens.adapter?.notifyDataSetChanged()
+//                    binding.btnCloseTicket.text = "Reabrir"
+//                    binding.btnCloseTicket.visibility = View.VISIBLE
                     val snack = Snackbar.make(binding.root,"Ticket fechado e resposta enviada!",Snackbar.LENGTH_SHORT)
                         .setActionTextColor(resources.getColor(R.color.black))
                         .setAction("Desfazer"){
                                 Snackbar.make(binding.root, "Mudanças desfeitas", Snackbar.LENGTH_SHORT).show();
                             }
-                        .setBackgroundTint(resources.getColor(R.color.green_ufca))
+                        .setBackgroundTint(resources.getColor(R.color.blue_enabled))
                     snack.show()
                 }
                 super.onPageStarted(view, url, favicon)
