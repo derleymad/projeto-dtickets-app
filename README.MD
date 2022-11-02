@@ -3,7 +3,7 @@
 <p float="left">
   <img src="images/login.jpeg" width="200" /> 
   <img src="images/tickets.jpeg" width="200" />
-  <img src="images/cht.jpeg" width="200" />
+  <img src="images/chat.jpeg" width="200" />
 </p>
 
 ## Tecnologia
