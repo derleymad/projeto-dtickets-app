@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.derleymad.myapplication.databinding.ActivityLoginBinding
 import org.jsoup.Connection
@@ -80,6 +81,7 @@ class LoginActivity : AppCompatActivity() {
 
             runOnUiThread {
                 if(doc.body().toString().contains("Invalid login")){
+
                     binding.contentMain.progressBar.visibility = View.GONE
                     binding.contentMain.loginBtnEnter.visibility = View.VISIBLE
                     binding.contentMain.loginTxtInputLayoutEmail.error =  "Usuário incorreto"

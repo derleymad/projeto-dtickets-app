@@ -1,7 +1,9 @@
 package com.derleymad.myapplication.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +13,12 @@ import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentMeusBinding
 import com.derleymad.myapplication.model.Ticket
+import com.derleymad.myapplication.utils.GetTicketsAbertosRequest
+import com.derleymad.myapplication.utils.GetTicketsFechadosRequest
+import com.derleymad.myapplication.utils.GetTicketsMeusRequest
 
 
-class MeusFragment(val listMeus: List<Ticket>,
-                   ) : Fragment() {
+class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
 
     private lateinit var binding : FragmentMeusBinding
 
@@ -29,21 +33,40 @@ class MeusFragment(val listMeus: List<Ticket>,
     ): View? {
 
         binding = FragmentMeusBinding.inflate(layoutInflater)
-
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPreference =  view.context.getSharedPreferences("credentials", Context.MODE_PRIVATE)
 
-        binding.rvMeus.adapter= TicketsAdapter(listMeus) { it ->
-            val intent = Intent(context, TicketActivity::class.java)
+        val username = sharedPreference.getString("username","none")?: throw  java.lang.IllegalStateException(
+            "Não devia estar aqui sem ter feito login!"
+        )
+        val password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
+            "Não devia estar aqui sem ter feito login!"
+        )
+
+        GetTicketsMeusRequest(this@MeusFragment).execute(username,password)
+    }
+
+    override fun onPreExecute() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun onResult(tickets: List<Ticket>) {
+
+        binding.rvMeus.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)
         }
-        binding.rvMeus.layoutManager = LinearLayoutManager(view.context)
+        binding.rvMeus.layoutManager = LinearLayoutManager(view?.context ?: null)
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.rvMeus.visibility = View.VISIBLE
+    }
 
+    override fun onFailure(message: String) {
     }
 
 }
