@@ -20,6 +20,7 @@ data class TicketDetail(
     val sala : String,
     val bloco : String,
     val setorSolicitante: String,
-    val nome : String
+    val nome : String,
+    val msgs : List<Mensagem>
 
 )

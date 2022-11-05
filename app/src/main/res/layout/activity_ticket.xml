@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background_ticket_details"
+    android:background="?attr/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TicketActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/ticketToolbar"
+        android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/blue_enabled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,16 +63,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </androidx.cardview.widget.CardView>
+
             <ImageButton
                 android:id="@+id/btn_flag"
-                app:layout_constraintEnd_toStartOf="@id/btn_more"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/ic_baseline_flag_24"
-                android:background="@null"
-                android:layout_marginEnd="16dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_baseline_flag_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_more"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btn_more"
@@ -95,6 +98,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Theme.MyApplication.RecyclerViewTicketDetail"
         tools:visibility="visible"
         android:visibility="invisible"
         android:id="@+id/mainContainer"
@@ -110,8 +114,8 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:paddingStart="14dp"
+            android:background="?attr/colorPrimary"
             android:layout_height="wrap_content"
-            android:background="@color/blue_enabled"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -211,6 +215,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                style="@style/Theme.MyApplication.RecyclerViewTicketDetail"
                 android:id="@+id/rv_mensagens"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -221,12 +226,15 @@
                 tools:listitem="@layout/msg_item" />
 
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_scroll_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
+            android:elevation="0dp"
+            android:backgroundTint="?attr/colorPrimary"
             android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+            app:tint="@color/white"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@+id/rv_mensagens"
             app:layout_constraintEnd_toEndOf="parent"
@@ -235,13 +243,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:id="@+id/edit_send_container"
-        android:background="@color/white"
+        style="@style/Theme.MyApplication.EditText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:weightSum="1"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:minHeight="50dp"
+        android:layout_height="wrap_content">
 
         <ImageButton
             android:src="@drawable/ic_baseline_textsms_24"
@@ -250,6 +259,7 @@
             android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/edit_message"
             android:layout_marginStart="8dp"
@@ -258,7 +268,6 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_height="wrap_content"/>
-
 
         <ImageButton
             android:id="@+id/btn_send"
@@ -271,10 +280,12 @@
             android:layout_weight="0.1"
             android:background="@null"
             android:src="@drawable/ic_baseline_send_24" />
+
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
+        android:indeterminateTint="@color/blue_enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

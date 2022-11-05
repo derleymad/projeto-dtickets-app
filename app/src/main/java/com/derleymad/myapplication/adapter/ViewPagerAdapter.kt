@@ -1,16 +1,13 @@
 package com.derleymad.myapplication.adapter
 
 import android.content.res.Resources
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.adapter.FragmentViewHolder
 import com.derleymad.myapplication.ui.AbertosFragment
 import com.derleymad.myapplication.ui.FechadosFragment
 import com.derleymad.myapplication.ui.MeusFragment
 import com.derleymad.myapplication.ui.RespondidosFragment
-import com.derleymad.myapplication.model.Ticket
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {

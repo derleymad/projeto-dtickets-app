@@ -4,6 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+android:background="?attr/background"
 tools:context=".MainActivity">
 
 <com.google.android.material.appbar.AppBarLayout
@@ -11,7 +12,7 @@ tools:context=".MainActivity">
     app:elevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/blue_enabled">
+    android:background="?attr/colorPrimary">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@ tools:context=".MainActivity">
                 android:layout_marginStart="32dp"
 
                 android:gravity="center_vertical"
-                android:background="@color/blue_enabled"
+                android:background="?attr/colorPrimary"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -56,10 +57,11 @@ tools:context=".MainActivity">
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:tabBackground="@color/blue_enabled"
+        app:tabBackground="?attr/colorPrimary"
+        android:background="?attr/background"
         app:tabGravity="fill"
         app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorColor="?attr/colorOnPrimary"
         app:tabIconTint="@color/tab_icon_background"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="4dp"

@@ -8,6 +8,7 @@
     android:layout_marginStart="16dp"
     xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Theme.MyApplication.ContainerInfo"
         android:id="@+id/container_msg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +36,9 @@
             tools:text="Wanderley Filho" />
 
         <TextView
+            style="@style/Theme.MyApplication.ContainerInfo.Text"
             android:id="@+id/tv_msg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -44,7 +46,6 @@
             android:letterSpacing="0.01"
             android:lineSpacingExtra="3dp"
             android:textAlignment="viewStart"
-            android:textColor="@color/black"
             android:textIsSelectable="true"
             android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_date"
@@ -62,8 +63,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/gray_text"
-            android:textSize="12sp"
             android:textIsSelectable="true"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

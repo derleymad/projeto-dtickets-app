@@ -1,16 +1,15 @@
 package com.derleymad.myapplication.utils
 
 import android.accounts.NetworkErrorException
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.derleymad.myapplication.MainActivity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import com.derleymad.myapplication.R
-import com.derleymad.myapplication.databinding.FragmentAbertosBinding
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.AbertosFragment
 import com.derleymad.myapplication.ui.MeusFragment
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -22,6 +21,7 @@ class GetTicketsMeusRequest(private val callback: MeusFragment){
 
     private val handler = Handler(Looper.getMainLooper())
     private val executor = Executors.newSingleThreadExecutor()
+    lateinit var responseCode :String
     val url =
         "https://atendimento.ufca.edu.br/scp/login.php"
     val urlMeus =
@@ -39,6 +39,9 @@ class GetTicketsMeusRequest(private val callback: MeusFragment){
         executor.execute{
             try{
                 val ticketsAbertos = getTicketsAbertos(username,password)
+                if(responseCode != "200"){
+                    throw NetworkErrorException(callback.getString(R.string.server_off))
+                }
                 handler.post{callback.onResult(ticketsAbertos)}
 
             }catch (e: NetworkErrorException){
@@ -59,6 +62,7 @@ class GetTicketsMeusRequest(private val callback: MeusFragment){
             Jsoup.connect(url)
                 .method(Connection.Method.GET)
                 .execute()
+        responseCode = loginForm.statusCode().toString()
 
         val doc: Document = Jsoup.connect(url)
             .data("userid", "$username")
@@ -99,4 +103,5 @@ class GetTicketsMeusRequest(private val callback: MeusFragment){
         return tickets
 
     }
+
 }

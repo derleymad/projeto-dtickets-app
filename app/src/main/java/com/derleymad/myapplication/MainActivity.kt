@@ -1,21 +1,14 @@
 package com.derleymad.myapplication
 
-import android.accounts.NetworkErrorException
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.derleymad.myapplication.adapter.ViewPagerAdapter
 import com.derleymad.myapplication.databinding.ActivityMainBinding
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.utils.GetTicketsAbertosRequest
 import com.google.android.material.tabs.TabLayoutMediator
-import org.jsoup.Connection
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         setUpTabs()
 
     }
-
 
     private fun setUpTabs() {
         binding.progressBar.visibility = View.GONE

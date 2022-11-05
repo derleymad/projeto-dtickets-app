@@ -4,25 +4,43 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_enabled</item>
         <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/gray</item>
+        <item name="background">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blue_enabled</item>
-        <item name="colorSecondaryVariant">@color/blue_enabled</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/gray</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="Theme.Scrapping.TicketActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/blue_enabled</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blue_enabled</item>
-        <item name="colorSecondaryVariant">@color/blue_enabled</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
-        <!-- Customize your theme here. -->
+
+    <style name="Theme.MyApplication.RecyclerViewTicketDetail" >
+        <item name="android:background">@color/background_ticket_details</item>
+    </style>
+
+    <style name="Theme.MyApplication.ContainerInfo" >
+        <item name="android:background">@color/white</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="Theme.MyApplication.ContainerInfo.Text" >
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Theme.MyApplication.ContainerInfo.NumberTicket">
+        <item name="android:textColor">@color/blue_enabled</item>
+    </style>
+
+    <style name="Theme.MyApplication.ContainerInfo.Text.Others">
+        <item name="android:textColor">@color/textGray</item>
+    </style>
+
+    <style name="Theme.MyApplication.EditText">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Theme.MyApplication.FAB" parent="Theme.MyApplication">
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 </resources>

@@ -8,16 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.derleymad.myapplication.R
 import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentAbertosBinding
-import com.derleymad.myapplication.databinding.FragmentMeusBinding
 import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.utils.GetTicketsAbertosRequest
+import com.google.android.material.snackbar.Snackbar
 
 
 class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
@@ -37,8 +34,6 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
         // Inflate the layout for this fragment
         binding = FragmentAbertosBinding.inflate(layoutInflater)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,12 +48,18 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
             "Não devia estar aqui sem ter feito login!"
         )
 
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
+            GetTicketsAbertosRequest(this@AbertosFragment).execute(username,password)
+        }
         GetTicketsAbertosRequest(this@AbertosFragment).execute(username,password)
         Log.i("testeview","Abertoscriado")
     }
 
     override fun onPreExecute() {
-        binding.progressBar.visibility = View.VISIBLE
+        if(binding.swipeRefresh.isRefreshing){
+            binding.progressBar.visibility = View.INVISIBLE
+        }
     }
 
     override fun onResult(tickets: List<Ticket>) {
@@ -70,11 +71,15 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
         binding.rvAbertos.layoutManager = LinearLayoutManager(view?.context ?: null)
         binding.progressBar.visibility = View.INVISIBLE
         binding.rvAbertos.visibility = View.VISIBLE
+        binding.swipeRefresh.isRefreshing = false
 
     }
 
     override fun onFailure(message: String) {
-        Log.i("errorVixe",message)
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.swipeRefresh.isRefreshing = false
+        Snackbar.make(binding.root,message, Snackbar.LENGTH_SHORT).show()
+        Log.e("responseCode",message)
     }
 
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayout"
+    android:background="?attr/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,9 +11,9 @@
         android:id="@+id/login_img_logo"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@null"
-        android:src="@drawable/ufca" />
+        android:src="@drawable/coala" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_txt_input_layout_email"
@@ -93,7 +94,7 @@
         <TextView
             style="@style/Theme.MyApplication.TextViewBase"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="?attr/background"
             android:padding="8dp"
             android:text="@string/or" />
     </FrameLayout>

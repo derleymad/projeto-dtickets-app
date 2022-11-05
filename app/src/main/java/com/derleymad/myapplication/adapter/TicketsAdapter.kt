@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Ticket
+import android.view.animation.AnimationUtils
 
-class TicketsAdapter(private val list : List<Ticket>,
-                     private var onTicketClickListener : (String) -> Unit,
+class TicketsAdapter(
+    private val list: List<Ticket>,
+    private var onTicketClickListener: (String) -> Unit,
 ) : RecyclerView.Adapter<TicketsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,6 +22,7 @@ class TicketsAdapter(private val list : List<Ticket>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itemCurrent = list[position]
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context,R.anim.slide_in_row))
         holder.bind(itemCurrent)
     }
 
@@ -30,6 +32,7 @@ class TicketsAdapter(private val list : List<Ticket>,
 
     inner class ViewHolder (view: View): RecyclerView.ViewHolder(view) {
         fun bind(itemCurrent : Ticket){
+
             val description = itemView.findViewById<TextView>(R.id.description)
             val number = itemView.findViewById<TextView>(R.id.number)
             val prioridade = itemView.findViewById<TextView>(R.id.priority)
@@ -54,6 +57,8 @@ class TicketsAdapter(private val list : List<Ticket>,
 
         }
     }
+
+
 
 
 }

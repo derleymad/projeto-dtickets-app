@@ -9,7 +9,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/container_card_view"
         app:cardCornerRadius="10dp"
@@ -17,7 +16,7 @@
         android:layout_width="match_parent"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:backgroundTint="@color/white"
+        style="@style/Theme.MyApplication.ContainerInfo"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/background_priority"
@@ -26,24 +25,22 @@
             android:layout_height="match_parent">
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/priority_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Prioridade - "
-                android:textColor="@color/gray_text"
-                android:textSize="12dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/data" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/de"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,39 +48,38 @@
                 tools:text="ANTONY FRANK ALVES..." />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:drawableEnd="@drawable/ic_baseline_calendar_today_24"
+                android:drawableStart="@drawable/ic_baseline_calendar_today_24"
+                android:drawablePadding="2dp"
                 android:maxLength="10"
                 android:text=""
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description"
                 tools:text="12/12/2022" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/para"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="José Ulisses da Silva Filho" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text=""
-                android:textColor="@color/gray_text"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/description"
@@ -94,12 +90,11 @@
                 tools:text="#123456" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/priority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/priority_static"
                 app:layout_constraintStart_toEndOf="@+id/priority_static"
@@ -116,31 +111,29 @@
                 android:maxEms="12"
                 android:text="Formatar computador asd assd assd asds assd asd aassd asd assd"
                 android:textAllCaps="false"
-                android:textColor="@color/textBlue"
+                style="@style/Theme.MyApplication.ContainerInfo.NumberTicket"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="De - "
-                android:textColor="@color/gray_text"
-                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/de"
                 app:layout_constraintEnd_toStartOf="@+id/de"
                 app:layout_constraintTop_toTopOf="@+id/de" />
 
             <TextView
+                style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Para - "
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

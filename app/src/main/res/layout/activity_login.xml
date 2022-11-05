@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="LoginActivity">
@@ -26,7 +27,7 @@
         android:id="@+id/textView"
         style="@style/Theme.MyApplication.TextViewBase"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="?attr/background"
         android:padding="8dp"
         android:text="@string/login_txt_footer"
         app:layout_constraintBottom_toBottomOf="parent"

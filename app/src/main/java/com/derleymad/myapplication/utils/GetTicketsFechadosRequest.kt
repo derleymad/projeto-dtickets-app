@@ -4,13 +4,8 @@ import android.accounts.NetworkErrorException
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.derleymad.myapplication.MainActivity
 import com.derleymad.myapplication.R
-import com.derleymad.myapplication.databinding.FragmentAbertosBinding
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.AbertosFragment
 import com.derleymad.myapplication.ui.FechadosFragment
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -22,6 +17,7 @@ class GetTicketsFechadosRequest(private val callback: FechadosFragment){
 
     private val handler = Handler(Looper.getMainLooper())
     private val executor = Executors.newSingleThreadExecutor()
+    lateinit var responseCode : String
     val url =
         "https://atendimento.ufca.edu.br/scp/login.php"
     val urlFechados =
@@ -39,7 +35,9 @@ class GetTicketsFechadosRequest(private val callback: FechadosFragment){
             try{
                 val ticketsAbertos = getTicketsAbertos(username,password)
                 handler.post{callback.onResult(ticketsAbertos)}
-
+                if(responseCode != "200"){
+                    throw NetworkErrorException(callback.getString(R.string.server_off))
+                }
             }catch (e: NetworkErrorException){
                 val message = e.message ?: callback.getString(R.string.uknown_error)
                 Log.e("Teste",message,e)
@@ -58,7 +56,7 @@ class GetTicketsFechadosRequest(private val callback: FechadosFragment){
             Jsoup.connect(url)
                 .method(Connection.Method.GET)
                 .execute()
-
+        responseCode = loginForm.statusCode().toString()
         val doc: Document = Jsoup.connect(url)
             .data("userid", "$username")
             .data("passwd", "$password")

@@ -3,13 +3,16 @@ package com.derleymad.myapplication
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.derleymad.myapplication.databinding.ActivityLoginBinding
+import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -26,16 +29,25 @@ class LoginActivity : AppCompatActivity() {
 
         val sharedPreference =  getSharedPreferences("credentials", Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
-        if(sharedPreference.getBoolean("autologin",false)){
+        if(sharedPreference.getBoolean("autologin",false) && checkNetwork()){
             val intent = Intent(this@LoginActivity,MainActivity::class.java)
             startActivity(intent)
+        }else{
+            Snackbar.make(binding.root,"Sem conexão com a internet",Snackbar.LENGTH_SHORT).show()
         }
 
         binding.contentMain.username.addTextChangedListener(watcher)
         binding.contentMain.password.addTextChangedListener(watcher)
 
         binding.contentMain.loginBtnEnter.setOnClickListener {
-            loginAuth(binding.contentMain.username.text.toString(),binding.contentMain.password.text.toString())
+            if(checkNetwork()) {
+                loginAuth(
+                    binding.contentMain.username.text.toString(),
+                    binding.contentMain.password.text.toString()
+                )
+            }else{
+                Snackbar.make(binding.root,"Sem conexão com a internet",Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -60,6 +72,13 @@ class LoginActivity : AppCompatActivity() {
         }
         override fun afterTextChanged(s: Editable?) {
         }
+    }
+
+    private fun checkNetwork() : Boolean{
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && (networkInfo.isAvailable || networkInfo.isConnected)
     }
 
     private fun loginAuth(username:String,password:String) {
@@ -87,6 +106,7 @@ class LoginActivity : AppCompatActivity() {
                     binding.contentMain.loginTxtInputLayoutEmail.error =  "Usuário incorreto"
                     binding.contentMain.loginTxtInputLayoutPassword.error =  "Senha incorreta"
                 }else{
+                    val numbersList = doc.select("#sub_nav").select("ul").select("a").eachText()
                     if(binding.contentMain.checkbox.isChecked){
                         editor.putBoolean("autologin",true)
                         editor.putString("username",binding.contentMain.username.text.toString())

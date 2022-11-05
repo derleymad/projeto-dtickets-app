@@ -1,6 +1,5 @@
 package com.derleymad.myapplication
 
-import android.accounts.NetworkErrorException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -20,21 +19,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.adapter.TicketMensagemAdapter
 import com.derleymad.myapplication.databinding.ActivityTicketBinding
 import com.derleymad.myapplication.model.Mensagem
+import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.model.TicketDetail
+import com.derleymad.myapplication.utils.GetTicketDetailsRequest
+import com.derleymad.myapplication.utils.Pojo
 import com.google.android.material.snackbar.Snackbar
-import org.jsoup.Connection
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 import java.util.*
 
-class TicketActivity : AppCompatActivity() {
+class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     private lateinit var editor : SharedPreferences.Editor
     private lateinit var binding : ActivityTicketBinding
-    private lateinit var ticketDetail : TicketDetail
     private lateinit var username : String
     private lateinit var password: String
-    val msgs = mutableListOf<Mensagem>()
+    private lateinit var numero : String
+    private var msgs = mutableListOf<Mensagem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +56,7 @@ class TicketActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
+
         binding.btnSend.setOnClickListener {
             if(binding.editMessage.text.isNotEmpty()){
                 binding.btnSend.visibility = View.GONE
@@ -66,46 +65,45 @@ class TicketActivity : AppCompatActivity() {
 
             }
         }
+
         binding.btnScrollDown.setOnClickListener {
             binding.rvMensagens.smoothScrollToPosition(msgs.size-1)
         }
 
         binding.btnMore.setOnClickListener {
-            val popupMenu: PopupMenu = PopupMenu(this,binding.btnMore)
+            val popupMenu = PopupMenu(this,binding.btnMore)
             popupMenu.menuInflater.inflate(R.menu.menu,popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                when(item.itemId) {
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
                     R.id.action_atribuir_para_mim ->
-                        Toast.makeText(this@TicketActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@TicketActivity,
+                            "You Clicked : " + item.title,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     R.id.atribuir_para_alguem ->
-                        Toast.makeText(this@TicketActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@TicketActivity,
+                            "You Clicked : " + item.title,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     R.id.fechar_ticket ->
-                        loginAndCloseTicket(id,"Atendimento realizado, fechando ticket!")
+                        openDialogAndCallToClose(numero,id)
                 }
                 true
-            })
+            }
             popupMenu.show()
         }
 
+        GetTicketDetailsRequest(this@TicketActivity).execute(username,password,id)
+//        bindPojo(Pojo().getTicketDetail())
 
-        loginAndGetTicket(username,password,id)
-
-
-
-//        binding.btnCloseTicket.setOnClickListener {
-//            if(ticketDetail.status=="Closed"){
-//                Log.i("fechado","ticket fechado ja")
-//            }else{
-//                openDialogAndCloseTicket(ticketDetail)
-//                Log.i("fechando","fechando ticket")
-//            }
-//        }
+    }
+    private fun bindPojo(ticket:TicketDetail){
+        populateView(ticket)
     }
 
     private fun loginAndPostMessage(message: String,id:String) {
-
-//        binding.btnProgress.visibility = View.VISIBLE
-//        binding.btnCloseTicket.visibility = View.INVISIBLE
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)
         binding.webView.loadUrl(url)
@@ -138,7 +136,6 @@ class TicketActivity : AppCompatActivity() {
                             de="Você",
                             mensagem = "$message"
                         )
-
                     )
                     binding.editMessage.setTextColor(resources.getColor(R.color.black))
                     binding.editMessage.text.clear()
@@ -148,162 +145,29 @@ class TicketActivity : AppCompatActivity() {
                 }
                 super.onPageStarted(view, url, favicon)
             }
-
         }
-
     }
 
-    fun openDialogAndCloseTicket(ticket: TicketDetail){
+    private fun openDialogAndCallToClose(numero:String, id:String){
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Fechar o ${ticket.numeroTicket.lowercase(Locale.ROOT)}")
+        builder.setTitle("Fechar o ${numero.lowercase(Locale.ROOT)}")
         val input = EditText(this)
-        input.hint = "Diga um motivo (ou não)"
+        input.hint = "Diga um motivo"
         input.inputType = InputType.TYPE_CLASS_TEXT
+        input.setPadding(32,0,32,0)
         builder.setView(input)
-        builder.setMessage("Deseja Realmnete remover o ticket?")
+        builder.setMessage("Deseja Realmente remover o ticket?")
 
         builder.setPositiveButton("Fechar", DialogInterface.OnClickListener { dialog, which ->
             if(input.text.isNotEmpty()){
-                loginAndCloseTicket(ticket.id,input.text.toString())
+                loginAndCloseTicket(id,input.text.toString())
             }
         })
         builder.setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
         builder.show()
     }
 
-    fun loginAndGetTicket(username: String,password: String, id: String) {
-
-        val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
-        try {
-            Thread{
-                val loginForm =
-                    Jsoup.connect(url)
-                        .method(Connection.Method.GET)
-                        .execute()
-
-                val doc: Document = Jsoup.connect(url)
-                    .data("userid", "$username")
-                    .data("passwd", "$password")
-                    .cookies(loginForm.cookies())
-                    .post()
-
-
-                val page= Jsoup
-                    .connect(url)
-                    .cookies(loginForm.cookies())
-                    .get()
-
-                val content : Elements = page.select("#content")
-
-                val numeroTicket = content
-                    .select("table")[0]
-                    .select("tbody")
-                    .select("tr").select("td")[0].select("h2").select("a").text()
-
-                val firstTableLeft = content
-                    .select("table")[1].select("tbody").select("tr").select("td:nth-child(1)")
-
-                val firstTableRight = content
-                    .select("table")[1].select("tbody").select("tr").select("td:nth-child(2)")
-
-                val secondTable = content
-                    .select(".ticket_info")[1]
-
-                val secondTableLeft= secondTable.select("tbody").select("tr").select("td:nth-child(1)")
-                val secondTableRight = secondTable.select("tbody").select("tr").select("td:nth-child(2)")
-
-                val thirdTable = content.select(".ticket_info")[2]
-
-                val descricao = content.select(">h2").text()
-                val id = content.select("table").select("tbody").select("tr").select("td").select("h2").select("a").attr("href")
-                val status = firstTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
-                val prioridade = firstTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
-                val setor = firstTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
-                val dataCriacao = firstTableLeft.select("table").select("tbody").select("tr")[3].select("td").text()
-                val email = firstTableRight.select("table").select("tbody").select("tr")[1].select("td").select("span").text()
-                val numero = firstTableRight.select("table").select("tbody").select("tr")[2].select("td").select("span").text()
-                val para = secondTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
-                val slaPlan = secondTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
-                val dueDate = secondTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
-                val ultimaMensagem = secondTableRight.select("table").select("tbody").select("tr")[1].select("td").text()
-                val ultimaResposta = secondTableRight.select("table").select("tbody").select("tr")[2].select("td").text()
-                val servicos = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[0].select("td").text()
-                val campus = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[1].select("td").text()
-                val sala = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[2].select("td").text()
-                val bloco = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[3].select("td").text()
-                val setorSolicitante = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[4].select("td").text()
-                val nome = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[5].select("td").text()
-
-                val qtdTickets = content.select("#threads").select("li").select("a").text()
-                val tableMsg : Elements = content.select("#ticket_thread").select("table")
-
-                for (i in tableMsg){
-                    val data = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[0].wholeText()
-                    val status = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[1].wholeText()
-                    val de = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[2].select(".tmeta.faded.title").text()
-                    val mensagem = i.select("tbody").select("tr")[1].select("td").select("div").text()
-
-                    msgs.add(Mensagem(
-                        data = data,
-                        status = status,
-                        de = de,
-                        mensagem = mensagem))
-                }
-
-                //FIM DO FOR
-
-                runOnUiThread {
-
-                    Log.i("mensagens",msgs.toString())
-                     ticketDetail = TicketDetail(
-                         id = id.substring(15..20),
-                         descricao  = descricao,
-                         status = status,
-                         prioridade = prioridade,
-                         setor = setor,
-                         dataCriacao = dataCriacao,
-                         email = email,
-                         numeroTicket = numeroTicket,
-                         numero = numero,
-                         para = para,
-                         slaPlan = slaPlan,
-                         dueDate = dueDate,
-                         ultimaMensagem  = ultimaMensagem,
-                         ultimaResposta = ultimaResposta,
-                         servicos = servicos,
-                         campus = campus,
-                         sala = sala,
-                         bloco = bloco,
-                         setorSolicitante = setorSolicitante,
-                         nome = nome
-                    )
-
-
-                    if(status == "Closed"){
-                        //btn close mudar texto para reabrir
-                    }
-
-                    binding.progressBar.visibility = View.INVISIBLE
-                    binding.mainContainer.visibility = View.VISIBLE
-                    binding.rvMensagens.adapter = TicketMensagemAdapter(msgs)
-                    binding.rvMensagens.layoutManager = LinearLayoutManager(this@TicketActivity)
-                    binding.nome.text = ticketDetail.nome
-                    binding.ticketDescription.text = ticketDetail.descricao
-                    binding.campus.text = ticketDetail.campus
-                    binding.numero.text = ticketDetail.numero
-                    binding.number.text = ticketDetail.numeroTicket
-                    binding.status.text = ticketDetail.status
-                    binding.sala.text = "$bloco-$sala"
-
-                }
-
-            }.start()
-        }catch (e : NetworkErrorException){
-            println(e.message)
-        }
-    }
-
-    fun loginAndCloseTicket(id:String, message : String){
+    private fun loginAndCloseTicket(id:String, message : String){
 
         binding.progressBar.visibility = View.VISIBLE
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
@@ -333,8 +197,6 @@ class TicketActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.INVISIBLE
                     // REFRESH MAIN ACTIVITY
                     binding.rvMensagens.adapter?.notifyDataSetChanged()
-//                    binding.btnCloseTicket.text = "Reabrir"
-//                    binding.btnCloseTicket.visibility = View.VISIBLE
                     val snack = Snackbar.make(binding.root,"Ticket fechado e resposta enviada!",Snackbar.LENGTH_SHORT)
                         .setActionTextColor(resources.getColor(R.color.black))
                         .setAction("Desfazer"){
@@ -349,5 +211,35 @@ class TicketActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun populateView(ticket:TicketDetail){
+        this.msgs.addAll(ticket.msgs)
+        this.numero = ticket.numeroTicket
+
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.mainContainer.visibility = View.VISIBLE
+        binding.rvMensagens.adapter = TicketMensagemAdapter(msgs)
+        binding.rvMensagens.layoutManager = LinearLayoutManager(this@TicketActivity)
+        binding.nome.text = ticket.nome
+        binding.ticketDescription.text = ticket.descricao
+        binding.campus.text = ticket.campus
+        binding.numero.text = ticket.numero
+        binding.number.text = ticket.numeroTicket
+        binding.status.text = ticket.status
+        binding.sala.text = "${ticket.bloco}-${ticket.sala}"
+    }
+
+    override fun onPreExecute() {
+        this.msgs.clear()
+    }
+
+    override fun onResult(ticket: TicketDetail) {
+        populateView(ticket)
+    }
+
+    override fun onFailure(message: String) {
+        Log.e("error","errorTicketActivity onFailure to GetTicketDetailsRequest, $message")
+    }
+
 
 }
