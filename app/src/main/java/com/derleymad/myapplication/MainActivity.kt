@@ -3,16 +3,22 @@ package com.derleymad.myapplication
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import com.derleymad.myapplication.adapter.ViewPagerAdapter
 import com.derleymad.myapplication.databinding.ActivityMainBinding
 import com.derleymad.myapplication.model.Ticket
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    var doubleBackToExitPressedOnce = false
     private lateinit var username : String
     private lateinit var password : String
     val url =
@@ -39,7 +45,19 @@ class MainActivity : AppCompatActivity() {
         password = sharedPreference.getString("password","none").toString()
 
         setUpTabs()
+    }
 
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+        this.doubleBackToExitPressedOnce = true
+       Snackbar.make(binding.root, "Pressione novamente para sair!", Snackbar.LENGTH_SHORT)
+           .show()
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
 
     private fun setUpTabs() {

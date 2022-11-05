@@ -30,6 +30,7 @@
         android:background="?attr/background"
         android:padding="8dp"
         android:text="@string/login_txt_footer"
+        android:textColor="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

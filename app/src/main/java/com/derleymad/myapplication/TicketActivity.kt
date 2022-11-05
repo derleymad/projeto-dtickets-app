@@ -110,25 +110,25 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         binding.webView.settings.setJavaScriptEnabled(true)
         var firstTime = true
 
-        binding.webView.loadUrl("javascript:{" +
-                "ins=document.getElementsByTagName('input');" +
-                "ins[2].value='$username';" +
-                "ins[3].value='$password';" +
-                "ins[4].click();" +
-                "};" )
 
         binding.webView.webViewClient = object  : WebViewClient(){
             override fun onPageFinished(view: WebView?, url: String?) {
+
+                binding.webView.loadUrl("javascript:{" +
+                        "document.getElementById('name').value = '$username';"+
+                        "document.getElementById('pass').value = '$password';"+
+                        "document.getElementsByClassName('submit')[0].click();" +
+                        "};" )
+
                 binding.webView.loadUrl("javascript:{" +
                         "document.getElementById('response').value = '$message';"+
                         "document.getElementsByClassName('btn_sm')[0].click();"+
                         "};" )
                 firstTime = false
-            }
 
+            }
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 if(!firstTime){
-                    binding.webView.stopLoading()
                     msgs.add(
                         Mensagem(
                             data="agora",
@@ -137,6 +137,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                             mensagem = "$message"
                         )
                     )
+                    binding.webView.stopLoading()
                     binding.editMessage.setTextColor(resources.getColor(R.color.black))
                     binding.editMessage.text.clear()
                     binding.btnSend.visibility = View.VISIBLE
@@ -153,14 +154,17 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         builder.setTitle("Fechar o ${numero.lowercase(Locale.ROOT)}")
         val input = EditText(this)
         input.hint = "Diga um motivo"
+        input.setTextColor(resources.getColor(R.color.textGray))
         input.inputType = InputType.TYPE_CLASS_TEXT
-        input.setPadding(32,0,32,0)
         builder.setView(input)
         builder.setMessage("Deseja Realmente remover o ticket?")
 
         builder.setPositiveButton("Fechar", DialogInterface.OnClickListener { dialog, which ->
             if(input.text.isNotEmpty()){
                 loginAndCloseTicket(id,input.text.toString())
+
+            }else{
+                Snackbar.make(binding.root,"Por favor, informe um motivo!",Snackbar.LENGTH_SHORT).show()
             }
         })
         builder.setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
@@ -168,7 +172,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     }
 
     private fun loginAndCloseTicket(id:String, message : String){
-
         binding.progressBar.visibility = View.VISIBLE
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)
