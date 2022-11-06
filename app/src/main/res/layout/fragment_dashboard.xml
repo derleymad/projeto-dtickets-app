@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    android:background="?attr/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.navigation.DashboardFragment">
+
+    <TextView
+        style="@style/Theme.MyApplication.ContainerInfo.Text"
+        android:id="@+id/hello_text"
+        android:backgroundTint="?attr/background"
+        android:layout_width="wrap_content"
+        android:text="Olá,"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        style="@style/Theme.MyApplication.ContainerInfo.Text"
+        android:id="@+id/name_of_person"
+        android:layout_width="wrap_content"
+        android:backgroundTint="?attr/background"
+        android:text="Wanderley Filho👋"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/hello_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:layout_constraintTop_toBottomOf="@id/name_of_person"
+        app:tabGravity="fill"
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabIndicatorColor="@color/blue_enabled"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="4dp"
+        app:tabInlineLabel="true"
+        app:tabMode="scrollable"
+        app:tabTextAppearance="@style/CustomTabStyle"
+        app:tabTextColor="@color/tab_icon_background_dashboard"
+        app:tabIconTint="@color/tab_icon_background_dashboard"
+        app:tabBackground="?attr/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

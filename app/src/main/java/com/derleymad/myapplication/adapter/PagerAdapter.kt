@@ -4,15 +4,13 @@ import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.derleymad.myapplication.ui.AbertosFragment
-import com.derleymad.myapplication.ui.FechadosFragment
-import com.derleymad.myapplication.ui.MeusFragment
-import com.derleymad.myapplication.ui.RespondidosFragment
+import com.derleymad.myapplication.ui.fragments.pager.AbertosFragment
+import com.derleymad.myapplication.ui.fragments.pager.FechadosFragment
+import com.derleymad.myapplication.ui.fragments.pager.MeusFragment
+import com.derleymad.myapplication.ui.fragments.pager.RespondidosFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int {
-        return 4
-    }
+class PagerAdapter(fragmentActivity: FragmentActivity) :
+    FragmentStateAdapter(fragmentActivity) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -31,10 +29,10 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapte
             else -> {
                 throw Resources.NotFoundException("Posição nao foi achada!")
             }
-
         }
-
     }
 
-
+    override fun getItemCount(): Int {
+        return 4
+    }
 }

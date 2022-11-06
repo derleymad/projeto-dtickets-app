@@ -3,11 +3,9 @@ package com.derleymad.myapplication.utils
 import android.accounts.NetworkErrorException
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.AbertosFragment
-import com.google.android.material.snackbar.Snackbar
+import com.derleymad.myapplication.ui.fragments.pager.AbertosFragment
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

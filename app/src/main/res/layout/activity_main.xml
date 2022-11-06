@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="?attr/background"
 tools:context=".MainActivity">
 
-<com.google.android.material.appbar.AppBarLayout
-    android:id="@+id/header"
-    app:elevation="0dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary">
-
-    <com.google.android.material.appbar.CollapsingToolbarLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/header"
+        app:elevation="0dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_scrollFlags="scroll|enterAlways">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,48 +36,31 @@ tools:context=".MainActivity">
                     android:src="@drawable/ic_baseline_search_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <com.google.android.material.tabs.TabLayout
-        style="@style/CustomTabStyle"
-        android:id="@+id/tabs"
+<!--    <fragment-->
+<!--        android:layout_marginBottom="?attr/actionBarSize"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--        android:layout_width="match_parent"-->
+<!--        app:defaultNavHost = "true"-->
+<!--        app:navGraph ="@navigation/nav_graph"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_height="match_parent"/>-->
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:tabBackground="?attr/colorPrimary"
-        android:background="?attr/background"
-        app:tabGravity="fill"
-        app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="?attr/colorOnPrimary"
-        app:tabIconTint="@color/tab_icon_background"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorHeight="4dp"
-        app:tabInlineLabel="true"
-        app:tabMode="scrollable"
-        app:tabTextAppearance="@style/CustomTabStyle"
-        app:tabTextColor="@color/tab_icon_background" />
+        android:layout_height="match_parent"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        app:menu="@menu/nav_menu"
+        style="@style/Theme.MyApplication.BottomNavigation"
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="selected"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="?attr/actionBarSize"
         />
 
 </FrameLayout>
-
-<ProgressBar
-    android:id="@+id/progressBar"
-    style="?android:attr/progressBarStyle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>

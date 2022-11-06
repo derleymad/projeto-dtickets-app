@@ -1,19 +1,18 @@
 package com.derleymad.myapplication
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
-import com.derleymad.myapplication.adapter.ViewPagerAdapter
+import androidx.fragment.app.Fragment
 import com.derleymad.myapplication.databinding.ActivityMainBinding
 import com.derleymad.myapplication.model.Ticket
+import com.derleymad.myapplication.ui.fragments.navigation.BaseFragment
+import com.derleymad.myapplication.ui.fragments.navigation.DashboardFragment
+import com.derleymad.myapplication.ui.fragments.navigation.SettingsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,16 +20,6 @@ class MainActivity : AppCompatActivity() {
     var doubleBackToExitPressedOnce = false
     private lateinit var username : String
     private lateinit var password : String
-    val url =
-        "https://atendimento.ufca.edu.br/scp/login.php"
-    val urlAbertos =
-        "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&"
-    val urlMeus =
-        "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&status=assigned"
-    val urlFechados =
-        "https://atendimento.ufca.edu.br/scp/tickets.php?status=closed"
-    val urlRespondidos =
-        "https://atendimento.ufca.edu.br/scp/tickets.php?sort=date&order=DESC&status=answered"
 
     val tickets = mutableListOf<List<Ticket>>()
 
@@ -44,7 +33,30 @@ class MainActivity : AppCompatActivity() {
         username = sharedPreference.getString("username","none").toString()
         password = sharedPreference.getString("password","none").toString()
 
-        setUpTabs()
+        loadFragment(BaseFragment())
+
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.setOnNavigationItemSelectedListener{
+            when (it.itemId) {
+                R.id.baseFragment-> {
+                    loadFragment(BaseFragment())
+                }
+                R.id.dashboardFragment-> {
+                    loadFragment(DashboardFragment())
+                }
+                R.id.settingsFragment-> {
+                    loadFragment(SettingsFragment())
+                }
+            }
+            true
+        }
+    }
+
+    private fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_layout,fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onBackPressed() {
@@ -59,91 +71,5 @@ class MainActivity : AppCompatActivity() {
             doubleBackToExitPressedOnce = false
         }, 2000)
     }
-
-    private fun setUpTabs() {
-        binding.progressBar.visibility = View.GONE
-        binding.viewPager.adapter?.notifyDataSetChanged()
-        binding.viewPager.adapter =
-            ViewPagerAdapter(
-                this@MainActivity,
-            )
-        //TODO PODE SER APAGADO PARA CARREGAR SEPARADAMENTE LEMBRA ISSO PF
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, index ->
-            tab.text = when (index) {
-                0 -> "Meus"
-                1 -> "Abertos"
-                2 -> "Respondidos"
-                3 -> "Fechados"
-                else -> throw  Resources.NotFoundException("Posição não encontrada!")
-            }
-            tab.setIcon(
-                when (index) {
-                    0 -> R.drawable.ic_baseline_person_24
-                    1 -> R.drawable.ic_baseline_folder_open_24
-                    2 -> R.drawable.ic_baseline_draw_24
-                    3 -> R.drawable.ic_baseline_done_all_24
-                    else -> throw  Resources.NotFoundException("Posição não encontrada!")
-                }
-            )
-        }.attach()
-    }
 }
 
-//fun loginAndGetTickets(username: String,password: String) {
-//
-//
-//        val links = mutableListOf(urlMeus,urlAbertos,urlRespondidos,urlFechados)
-//
-//        try {
-//            Thread{
-//                val loginForm =
-//                    Jsoup.connect(url)
-//                        .method(Connection.Method.GET)
-//                        .execute()
-//
-//                val doc: Document = Jsoup.connect(url)
-//                    .data("userid", "$username")
-//                    .data("passwd", "$password")
-//                    .cookies(loginForm.cookies())
-//                    .post()
-//
-//                for (i in links){
-//                    val ticketAtual = mutableListOf<Ticket>()
-//                    val page= Jsoup
-//                        .connect(i)
-//                        .cookies(loginForm.cookies())
-//                        .get()
-//
-//                    val table : Elements = page.select("table")[1].select("tbody").select("tr")
-//
-//                    val id = table.select("td:nth-child(1)").select("input").eachAttr("value")
-//                    val number = table.select("td:nth-child(2)").select("a").eachText()
-//                    val email = table.select("td:nth-child(2)").eachAttr("title")
-//                    val data = table.select("td:nth-child(3)").eachText()
-//                    val assunto = table.select("td:nth-child(4)").select("a").eachText()
-//                    val de = table.select("td:nth-child(5)").eachText()
-//                    val prioridade = table.select("td:nth-child(6)").eachText()
-//                    val para = table.select("td:nth-child(7)").eachText()
-//
-//                    for (i in 0 until table.size){
-//                        ticketAtual.add(
-//                            Ticket(
-//                            id=id[i],
-//                            numero=number[i],
-//                            email=email[i],
-//                            data=data[i],
-//                            assunto = assunto[i],
-//                            de = de[i],
-//                            prioridade = prioridade[i],
-//                            para = para[i])
-//                        )
-//                    }
-//                    tickets.add(ticketAtual)
-//                }
-//                    runOnUiThread {
-//                }
-//            }.start()
-//        }catch (e : NetworkErrorException){
-//            println(e.message)
-//        }
-//    }

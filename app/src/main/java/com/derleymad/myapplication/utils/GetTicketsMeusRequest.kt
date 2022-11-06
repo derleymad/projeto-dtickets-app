@@ -1,16 +1,12 @@
 package com.derleymad.myapplication.utils
 
 import android.accounts.NetworkErrorException
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.MeusFragment
+import com.derleymad.myapplication.ui.fragments.pager.MeusFragment
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

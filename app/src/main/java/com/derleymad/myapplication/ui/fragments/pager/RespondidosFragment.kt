@@ -1,4 +1,4 @@
-package com.derleymad.myapplication.ui
+package com.derleymad.myapplication.ui.fragments.pager
 
 import android.content.Context
 import android.content.Intent

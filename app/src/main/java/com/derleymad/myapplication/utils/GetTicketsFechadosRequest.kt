@@ -6,7 +6,7 @@ import android.os.Looper
 import android.util.Log
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.FechadosFragment
+import com.derleymad.myapplication.ui.fragments.pager.FechadosFragment
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

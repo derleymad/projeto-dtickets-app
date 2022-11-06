@@ -1,7 +1,8 @@
-package com.derleymad.myapplication.ui
+package com.derleymad.myapplication.ui.fragments.pager
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,14 +12,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
-import com.derleymad.myapplication.databinding.FragmentFechadosBinding
+import com.derleymad.myapplication.databinding.FragmentMeusBinding
 import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.utils.GetTicketsFechadosRequest
+import com.derleymad.myapplication.utils.GetTicketsMeusRequest
+import com.derleymad.myapplication.utils.Pojo
 import com.google.android.material.snackbar.Snackbar
 
-class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
 
-    private lateinit var binding : FragmentFechadosBinding
+class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
+
+    private lateinit var binding : FragmentMeusBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,8 +32,10 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFechadosBinding.inflate(layoutInflater)
+
+        binding = FragmentMeusBinding.inflate(layoutInflater)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,33 +50,49 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
         )
         binding.swipeRefresh.setOnRefreshListener {
             binding.swipeRefresh.isRefreshing = true
-            GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
+            GetTicketsMeusRequest(this@MeusFragment).execute(username, password)
         }
-        GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
+            GetTicketsMeusRequest(this@MeusFragment).execute(username,password)
+//        bindPojo()
+    }
+    fun bindPojo(){
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.rvMeus.adapter  = TicketsAdapter(Pojo().getTickets()){
+            it -> val intent = Intent(context, TicketActivity::class.java)
+            intent.putExtra("id",it)
+            startActivity(intent)
+        }
+        binding.rvMeus.layoutManager = LinearLayoutManager(context)
+        binding.rvMeus.visibility = View.VISIBLE
     }
 
     override fun onPreExecute() {
-        if(binding.swipeRefresh.isRefreshing){
-            binding.progressBar.visibility = View.INVISIBLE
+    if(binding.swipeRefresh.isRefreshing){
+        binding.progressBar.visibility = View.INVISIBLE
         }
     }
 
     override fun onResult(tickets: List<Ticket>) {
-        binding.rvFechados.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
+        binding.rvMeus.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)
         }
-        binding.rvFechados.layoutManager = LinearLayoutManager(view?.context ?: null)
+        binding.rvMeus.layoutManager = LinearLayoutManager(view?.context ?: null)
         binding.progressBar.visibility = View.INVISIBLE
-        binding.rvFechados.visibility = View.VISIBLE
+        binding.rvMeus.visibility = View.VISIBLE
         binding.swipeRefresh.isRefreshing = false
     }
 
     override fun onFailure(message: String) {
         binding.progressBar.visibility = View.INVISIBLE
         binding.swipeRefresh.isRefreshing = false
-        Snackbar.make(binding.root,message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root,message,Snackbar.LENGTH_SHORT).show()
         Log.e("responseCode",message)
     }
-
+    private fun checkNetwork() : Boolean{
+        val connectivityManager = view?.context?.getSystemService(Context.CONNECTIVITY_SERVICE)
+             as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && (networkInfo.isAvailable || networkInfo.isConnected)
+    }
 }

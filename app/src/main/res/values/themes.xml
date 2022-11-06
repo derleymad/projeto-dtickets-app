@@ -43,4 +43,10 @@
     <style name="Theme.MyApplication.FAB" parent="Theme.MyApplication">
         <item name="android:backgroundTint">@color/white</item>
     </style>
+
+    <style name="Theme.MyApplication.BottomNavigation">
+        <item name="android:background">@drawable/bottom_background_transparent_light</item>
+        <item name="itemIconTint">@color/bottom_background</item>
+        <item name="itemTextColor">@color/bottom_background</item>
+    </style>
 </resources>
