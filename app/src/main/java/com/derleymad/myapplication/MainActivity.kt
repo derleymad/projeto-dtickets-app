@@ -50,6 +50,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
+        var badge = binding.bottomNavigationView.getOrCreateBadge(R.menu.nav_menu)
+        badge.isVisible = true
+        badge.number = 99
     }
 
     private fun loadFragment(fragment: Fragment){

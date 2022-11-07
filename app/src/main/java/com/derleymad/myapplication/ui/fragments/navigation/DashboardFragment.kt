@@ -22,7 +22,7 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as AppCompatActivity).supportActionBar?.title = "Home"
+        (activity as AppCompatActivity).supportActionBar?.title = "Dashboard"
         _binding = FragmentDashboardBinding.inflate(inflater,container,false)
         setupTabLayout()
         return binding.root
