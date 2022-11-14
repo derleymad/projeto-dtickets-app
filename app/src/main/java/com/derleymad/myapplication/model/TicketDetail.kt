@@ -2,6 +2,7 @@ package com.derleymad.myapplication.model
 
 data class TicketDetail(
     val id : String,
+    val myName : String,
     val descricao : String,
     val status : String,
     val prioridade : String,

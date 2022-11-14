@@ -18,11 +18,10 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.adapter.TicketMensagemAdapter
 import com.derleymad.myapplication.databinding.ActivityTicketBinding
+import com.derleymad.myapplication.model.FavTicket
 import com.derleymad.myapplication.model.Mensagem
-import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.model.TicketDetail
 import com.derleymad.myapplication.utils.GetTicketDetailsRequest
-import com.derleymad.myapplication.utils.Pojo
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -32,6 +31,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     private lateinit var username : String
     private lateinit var password: String
     private lateinit var numero : String
+    private lateinit var ticketDetail : TicketDetail
     private var msgs = mutableListOf<Mensagem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +52,23 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
+
+        binding.btnFlag.setOnClickListener {
+            val favTicket = FavTicket(
+                ticketDetail.id,
+                ticketDetail.myName,
+                ticketDetail.nome,
+                ticketDetail.para,
+                ticketDetail.descricao,
+                ticketDetail.status,
+                ticketDetail.prioridade,
+                ticketDetail.setor,
+                ticketDetail.dataCriacao,
+                ticketDetail.email,
+                ticketDetail.numeroTicket
+            )
+            openDialogAndSaveIntoDB(favTicket)
+        }
 
         binding.back.setOnClickListener {
             finish()
@@ -107,7 +124,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)
         binding.webView.loadUrl(url)
-        binding.webView.settings.setJavaScriptEnabled(true)
+        binding.webView.settings.javaScriptEnabled = true
         var firstTime = true
 
 
@@ -133,7 +150,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                         Mensagem(
                             data="agora",
                             status="aberto",
-                            de="Você",
+                            de=ticketDetail.myName,
                             mensagem = "$message"
                         )
                     )
@@ -176,7 +193,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)
         binding.webView.loadUrl(url)
-        binding.webView.settings.setJavaScriptEnabled(true)
+        binding.webView.settings.javaScriptEnabled = true
         var firstTime = true
         binding.webView.loadUrl("javascript:{" +
                 "ins=document.getElementsByTagName('input');" +
@@ -203,8 +220,8 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                     val snack = Snackbar.make(binding.root,"Ticket fechado e resposta enviada!",Snackbar.LENGTH_SHORT)
                         .setActionTextColor(resources.getColor(R.color.black))
                         .setAction("Desfazer"){
-                                Snackbar.make(binding.root, "Mudanças desfeitas", Snackbar.LENGTH_SHORT).show();
-                            }
+                                Snackbar.make(binding.root, "Mudanças desfeitas", Snackbar.LENGTH_SHORT).show()
+                        }
                         .setBackgroundTint(resources.getColor(R.color.blue_enabled))
                     snack.show()
                 }
@@ -219,24 +236,55 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         this.msgs.addAll(ticket.msgs)
         this.numero = ticket.numeroTicket
 
-        binding.progressBar.visibility = View.INVISIBLE
-        binding.mainContainer.visibility = View.VISIBLE
-        binding.rvMensagens.adapter = TicketMensagemAdapter(msgs)
-        binding.rvMensagens.layoutManager = LinearLayoutManager(this@TicketActivity)
-        binding.nome.text = ticket.nome
-        binding.ticketDescription.text = ticket.descricao
-        binding.campus.text = ticket.campus
-        binding.numero.text = ticket.numero
-        binding.number.text = ticket.numeroTicket
-        binding.status.text = ticket.status
-        binding.sala.text = "${ticket.bloco}-${ticket.sala}"
+        binding.apply {
+            progressBar.visibility = View.INVISIBLE
+            mainContainer.visibility = View.VISIBLE
+            rvMensagens.adapter = TicketMensagemAdapter(msgs, ticket.myName)
+            rvMensagens.layoutManager = LinearLayoutManager(this@TicketActivity)
+            nome.text = ticket.nome
+            ticketDescription.text = ticket.descricao
+            campus.text = ticket.campus
+            numero.text = ticket.numero
+            number.text = ticket.numeroTicket
+            status.text = ticket.status
+            sala.text = "${ticket.bloco}-${ticket.sala}"
+        }
+
     }
+    private fun openDialogAndSaveIntoDB(ticket : FavTicket) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.save_request))
+            .setMessage(getString(R.string.save_request_description))
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
+                val app = (application as App)
+                val dao = app.db.TicketDao()
+                Thread {
+                    try {
+                        dao.insert(ticket)
+                    } finally {
+                        runOnUiThread {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.save_sucess),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }.start()
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+            }
+            .create()
+            .show()
+    }
+
 
     override fun onPreExecute() {
         this.msgs.clear()
     }
 
     override fun onResult(ticket: TicketDetail) {
+        ticketDetail = ticket
         populateView(ticket)
     }
 

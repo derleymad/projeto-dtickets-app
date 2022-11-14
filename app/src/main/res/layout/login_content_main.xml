@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
-    android:background="?attr/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/login_img_logo"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginBottom="32dp"
@@ -16,13 +13,13 @@
         android:src="@drawable/coala" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_txt_input_layout_email"
+        android:id="@+id/loginTxtInputLayoutEmail"
         style="@style/Theme.MyApplication.Button.FormEditTextLayout"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
             style="@style/Theme.MyApplication.FormEditText"
+            android:id="@+id/username"
             android:autofillHints="@null"
             android:hint="@string/prompt_username"
             android:inputType="textEmailAddress" />
@@ -31,14 +28,14 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_txt_input_layout_password"
+        android:id="@+id/loginTxtInputLayoutPassword"
         style="@style/Theme.MyApplication.Button.FormEditTextLayout"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
 
-            android:id="@+id/password"
             style="@style/Theme.MyApplication.FormEditText"
+            android:id="@+id/password"
             android:autofillHints="@null"
             android:hint="@string/password"
             android:inputType="textPassword" />
@@ -67,8 +64,8 @@
     </LinearLayout>
 
     <ProgressBar
-        style="@style/Theme.MyApplication.ProgressBar"
         android:id="@+id/progressBar"
+        style="@style/Theme.MyApplication.ProgressBar"
         android:indeterminateTint="@color/blue_enabled"
         android:visibility="gone"
         android:layout_gravity="center"
@@ -76,7 +73,7 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/login_btn_enter"
+        android:id="@+id/loginBtnEnter"
         style="@style/Theme.MyApplication.Button"
         android:background="@color/blue_disabled"
         android:enabled="false"

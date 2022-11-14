@@ -53,11 +53,11 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
             GetTicketsAbertosRequest(this@AbertosFragment).execute(username,password)
         }
         GetTicketsAbertosRequest(this@AbertosFragment).execute(username,password)
-        Log.i("testeview","Abertoscriado")
     }
 
     override fun onPreExecute() {
         if(binding.swipeRefresh.isRefreshing){
+            binding.included.errorContainer.visibility = View.INVISIBLE
             binding.progressBar.visibility = View.INVISIBLE
         }
     }
@@ -68,6 +68,7 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
             intent.putExtra("id", it)
             startActivity(intent)
         }
+
         binding.rvAbertos.layoutManager = LinearLayoutManager(view?.context ?: null)
         binding.progressBar.visibility = View.INVISIBLE
         binding.rvAbertos.visibility = View.VISIBLE
@@ -77,9 +78,10 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
 
     override fun onFailure(message: String) {
         binding.progressBar.visibility = View.INVISIBLE
+        binding.included.errorContainer.visibility = View.VISIBLE
         binding.swipeRefresh.isRefreshing = false
-        Snackbar.make(binding.root,message, Snackbar.LENGTH_SHORT).show()
-        Log.e("responseCode",message)
+        Snackbar.make(binding.root,"Sem conexão", Snackbar.LENGTH_SHORT).show()
+        Log.e("internet_error_abertos",message)
     }
 
 }

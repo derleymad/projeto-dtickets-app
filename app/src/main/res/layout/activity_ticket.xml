@@ -72,7 +72,7 @@
                 android:background="@null"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:src="@drawable/ic_baseline_flag_24"
+                android:src="@drawable/ic_baseline_push_pin_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_more"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,10 +98,10 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainContainer"
         style="@style/Theme.MyApplication.RecyclerViewTicketDetail"
         tools:visibility="visible"
         android:visibility="invisible"
-        android:id="@+id/mainContainer"
         app:layout_constraintTop_toBottomOf="@id/ticketToolbar"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toTopOf="@id/edit_send_container"
@@ -206,8 +206,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <WebView
-            android:visibility="invisible"
             android:id="@+id/webView"
+            android:visibility="invisible"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -225,7 +225,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:listitem="@layout/msg_item" />
+                tools:listitem="@layout/msg_item_send" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

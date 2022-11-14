@@ -4,5 +4,6 @@ data class Mensagem(
     val data : String,
     val status : String,
     val de : String,
-    val mensagem : String
+    val mensagem : String,
+    val linkImg : String? = null
 )

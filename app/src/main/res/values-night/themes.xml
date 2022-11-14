@@ -37,18 +37,21 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.MyApplication.EditText">
-        <item name="android:background">@color/black_light_middle</item>
+    <style name="Theme.MyApplication.ContainerInfo.Text.Date" parent="Theme.MyApplication.CardView">
+        <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.MyApplication.FAB" parent="Theme.MyApplication">
-        <item name="android:backgroundTint">@color/gray</item>
+    <style name="Theme.MyApplication.EditText">
+        <item name="android:background">@color/black_light_middle</item>
     </style>
 
     <style name="Theme.MyApplication.BottomNavigation" >
         <item name="android:background">@drawable/bottom_background_transparent_dark</item>
         <item name="itemIconTint">@color/bottom_background</item>
         <item name="itemTextColor">@color/bottom_background</item>
+    </style>
+    <style name="Theme.MyApplication.CardView" parent="CustomCardViewStyle">
+        <item name="android:backgroundTint">@color/blue_enabled</item>
     </style>
 
 </resources>

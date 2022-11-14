@@ -32,6 +32,10 @@
         <item name="android:textColor">@color/blue_enabled</item>
     </style>
 
+    <style name="Theme.MyApplication.ContainerInfo.Text.Date" parent="Theme.MyApplication.CardView">
+        <item name="android:textColor">@color/textGray</item>
+    </style>
+
     <style name="Theme.MyApplication.ContainerInfo.Text.Others">
         <item name="android:textColor">@color/textGray</item>
     </style>
@@ -40,13 +44,13 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="Theme.MyApplication.FAB" parent="Theme.MyApplication">
-        <item name="android:backgroundTint">@color/white</item>
-    </style>
-
     <style name="Theme.MyApplication.BottomNavigation">
         <item name="android:background">@drawable/bottom_background_transparent_light</item>
         <item name="itemIconTint">@color/bottom_background</item>
         <item name="itemTextColor">@color/bottom_background</item>
+    </style>
+
+    <style name="Theme.MyApplication.CardView" parent="CustomCardViewStyle">
+        <item name="android:backgroundTint">@color/green_send_mensage</item>
     </style>
 </resources>

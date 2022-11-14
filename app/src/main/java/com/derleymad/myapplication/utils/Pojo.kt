@@ -27,6 +27,7 @@ class Pojo {
     fun getTicketDetail() : TicketDetail{
         return TicketDetail(
             msgs = mutableListOf(Mensagem("xx/xx/xxxx","xxxxx","xxxxx","xxxxxxxxxxxx xxxxxxxxxxx x xxxxxxxx xxx")),
+            myName = "xxxxx",
             descricao = "xxxxxxxxxxxxxxxxxxxxxxxx",
             status = "xxxxxxx",
             prioridade = "xxxxx",

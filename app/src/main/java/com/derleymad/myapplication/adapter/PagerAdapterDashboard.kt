@@ -4,8 +4,8 @@ import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.derleymad.myapplication.ui.fragments.pager.dashboard.FixadosFragment
 import com.derleymad.myapplication.ui.fragments.pager.dashboard.OverviewFragment
-import com.derleymad.myapplication.ui.fragments.pager.dashboard.ProductivityFragment
 
 class PagerAdapterDashboard(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
@@ -16,7 +16,7 @@ class PagerAdapterDashboard(fragmentActivity: FragmentActivity) :
                 OverviewFragment()
             }
             1 -> {
-                ProductivityFragment()
+                FixadosFragment()
             }
             else -> {
                 throw Resources.NotFoundException("Posição nao foi achada!")

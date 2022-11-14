@@ -15,6 +15,7 @@ import com.derleymad.myapplication.model.TicketDetail
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.util.concurrent.Executors
 
@@ -96,6 +97,8 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
 
         val thirdTable = content.select(".ticket_info")[2]
 
+        val myName = page.select("#info").select("strong").text()
+        Log.i("myname",myName)
         val descricao = content.select(">h2").text()
         val id = content.select("table").select("tbody").select("tr").select("td").select("h2").select("a").attr("href")
         val status = firstTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
@@ -119,22 +122,41 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
         val qtdTickets = content.select("#threads").select("li").select("a").text()
         val tableMsg : Elements = content.select("#ticket_thread").select("table")
 
+//        val outro = tableMsg.select("tbody").select("tr").select(".Icon.file").eachAttr("href")
+
+//        Log.i("tablemsg",outro.toString())
+
+//
+//        var temImg = false
+//
+//        var linkImg = tableMsg.select("tbody").select("tr")
+//
+//        for (i in linkImg){
+//            if (i.size)
+//        }
+//
+//        try{ [2].select("td").select("a").text()}catch (e:NetworkErrorException){
+//        }
+
         for (i in tableMsg){
             val data = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[0].wholeText()
             val status = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[1].wholeText()
             val de = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[2].select(".tmeta.faded.title").text()
             val mensagem = i.select("tbody").select("tr")[1].select("td").select("div").text()
+
             msgs.add(
                 Mensagem(
                     data = data,
                     status = status,
                     de = de,
-                    mensagem = mensagem)
+                    mensagem = mensagem,
+                )
             )
-        }
+           }
 
         var ticketDetail = TicketDetail(
             id = id.substring(15..20),
+            myName = myName,
             descricao = descricao,
             status = status,
             prioridade = prioridade,

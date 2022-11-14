@@ -31,11 +31,9 @@ class LoginActivity : AppCompatActivity() {
 
         val sharedPreference =  getSharedPreferences("credentials", Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
-        if(sharedPreference.getBoolean("autologin",false) && checkNetwork()){
+        if(sharedPreference.getBoolean("autologin",false)){
             val intent = Intent(this@LoginActivity,MainActivity::class.java)
             startActivity(intent)
-        }else{
-            Snackbar.make(binding.root,"Sem conexão com a internet",Snackbar.LENGTH_SHORT).show()
         }
 
         binding.contentMain.username.addTextChangedListener(watcher)

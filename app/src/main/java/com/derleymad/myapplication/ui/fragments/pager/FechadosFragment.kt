@@ -19,10 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
 
     private lateinit var binding : FragmentFechadosBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +47,7 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
 
     override fun onPreExecute() {
         if(binding.swipeRefresh.isRefreshing){
+            binding.included.errorContainer.visibility = View.INVISIBLE
             binding.progressBar.visibility = View.INVISIBLE
         }
     }
@@ -68,9 +65,11 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
 
     override fun onFailure(message: String) {
         binding.progressBar.visibility = View.INVISIBLE
+        binding.included.errorContainer.visibility = View.VISIBLE
         binding.swipeRefresh.isRefreshing = false
-        Snackbar.make(binding.root,message, Snackbar.LENGTH_SHORT).show()
-        Log.e("responseCode",message)
+        Snackbar.make(binding.root,"Sem conexão", Snackbar.LENGTH_SHORT).show()
+        Log.e("error_internet",message)
     }
+
 
 }

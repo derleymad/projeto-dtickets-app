@@ -52,7 +52,7 @@ class TicketsAdapter(
                 else -> itemView.resources.getColor(R.color.gray_text)
             })
             itemView.findViewById<CardView>(R.id.container_card_view).setOnClickListener {
-                onTicketClickListener?.invoke(itemCurrent.id)
+                onTicketClickListener.invoke(itemCurrent.id)
             }
 
         }

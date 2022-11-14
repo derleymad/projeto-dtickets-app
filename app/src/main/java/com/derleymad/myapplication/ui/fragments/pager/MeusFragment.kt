@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.derleymad.myapplication.App
 import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentMeusBinding
@@ -17,16 +20,13 @@ import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.utils.GetTicketsMeusRequest
 import com.derleymad.myapplication.utils.Pojo
 import com.google.android.material.snackbar.Snackbar
+import java.util.concurrent.Executors
 
 
 class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
 
     private lateinit var binding : FragmentMeusBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,6 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
 
         binding = FragmentMeusBinding.inflate(layoutInflater)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +67,7 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
 
     override fun onPreExecute() {
     if(binding.swipeRefresh.isRefreshing){
+        binding.included.errorContainer.visibility = View.INVISIBLE
         binding.progressBar.visibility = View.INVISIBLE
         }
     }
@@ -86,8 +86,10 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
     override fun onFailure(message: String) {
         binding.progressBar.visibility = View.INVISIBLE
         binding.swipeRefresh.isRefreshing = false
-        Snackbar.make(binding.root,message,Snackbar.LENGTH_SHORT).show()
-        Log.e("responseCode",message)
+        binding.included.errorContainer.visibility = View.VISIBLE
+        Snackbar.make(binding.root,"Sem conexão",Snackbar.LENGTH_SHORT)
+            .show()
+        Log.e("erro_internet_meus",message)
     }
     private fun checkNetwork() : Boolean{
         val connectivityManager = view?.context?.getSystemService(Context.CONNECTIVITY_SERVICE)

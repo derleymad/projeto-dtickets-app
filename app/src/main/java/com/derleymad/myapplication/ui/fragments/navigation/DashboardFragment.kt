@@ -35,13 +35,13 @@ class DashboardFragment : Fragment() {
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
                     0 -> "Overview"
-                    1 -> "Produtividade"
+                    1 -> "Fixados"
                     else -> throw  Resources.NotFoundException("Posição não encontrada!")
                 }
                 tab.setIcon(
                     when (position) {
                         0 -> R.drawable.ic_baseline_person_24
-                        1 -> R.drawable.ic_baseline_folder_open_24
+                        1 -> R.drawable.ic_baseline_push_pin_24
                         else -> throw  Resources.NotFoundException("Posição não encontrada!")
                     }
                 )
