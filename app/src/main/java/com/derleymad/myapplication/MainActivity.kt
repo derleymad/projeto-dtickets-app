@@ -37,45 +37,19 @@ class MainActivity : AppCompatActivity() {
         username = sharedPreference.getString("username","none").toString()
         password = sharedPreference.getString("password","none").toString()
 
-//
-//        val navView: BottomNavigationView = binding.navView
-//
-//        val navController = findNavController(R.id.nav_host_fragment_activity_bottomteste)
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navView.setupWithNavController(navController)
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
 //        val appBarConfiguration = AppBarConfiguration(
 //            setOf(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+//                R.id.navigation_base, R.id.navigation_dashboard, R.id.navigation_settings
 //            )
 //        )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
-//        navView.setupWithNavController(navController)
-
-        loadFragment(BaseFragment())
-
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNav.setOnNavigationItemSelectedListener{
-            when (it.itemId) {
-                R.id.baseFragment-> {
-                    loadFragment(BaseFragment())
-                }
-                R.id.dashboardFragment-> {
-                    loadFragment(DashboardFragment())
-                }
-                R.id.settingsFragment-> {
-                    loadFragment(SettingsFragment())
-                }
-            }
-            true
-        }
-
-    }
-
-    private fun loadFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout,fragment)
-        transaction.setReorderingAllowed(true)
-        transaction.commit()
     }
 
     override fun onBackPressed() {
