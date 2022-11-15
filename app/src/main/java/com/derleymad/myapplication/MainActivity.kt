@@ -6,6 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.derleymad.myapplication.databinding.ActivityMainBinding
 import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.ui.fragments.navigation.BaseFragment
@@ -33,6 +37,20 @@ class MainActivity : AppCompatActivity() {
         username = sharedPreference.getString("username","none").toString()
         password = sharedPreference.getString("password","none").toString()
 
+//
+//        val navView: BottomNavigationView = binding.navView
+//
+//        val navController = findNavController(R.id.nav_host_fragment_activity_bottomteste)
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+//            )
+//        )
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        navView.setupWithNavController(navController)
+
         loadFragment(BaseFragment())
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -51,16 +69,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
-        var badge = binding.bottomNavigationView.getOrCreateBadge(R.menu.nav_menu)
-        badge.isVisible = true
-        badge.number = 99
     }
 
     private fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout,fragment)
-        transaction.addToBackStack(null)
+        transaction.setReorderingAllowed(true)
         transaction.commit()
     }
 

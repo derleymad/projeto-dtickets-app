@@ -13,5 +13,14 @@
     <string name="save">Salvar</string>
     <string name="save_sucess">Salvo com sucesso!</string>
     <string name="adicione_tickets_clicando_para_fixar_e_volte_aqui">Adicione tickets clicando para fixar e <b>volte aqui</b></string>
+    <string name="remove_request">Remover ticket dos fixados?</string>
+    <string name="remove_request_description">Deseja realmente remover esse ticket dos fixados?</string>
+    <string name="remove_sucess">Removido com sucesso</string>
+    <string name="remove">Remover</string>
+    <string name="title_activity_bottomteste">bottomteste</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_base">Inicio</string>
 
 </resources>

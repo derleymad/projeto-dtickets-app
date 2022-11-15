@@ -32,6 +32,8 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     private lateinit var password: String
     private lateinit var numero : String
     private lateinit var ticketDetail : TicketDetail
+    private var isready = false
+    private var isfixed = false
     private var msgs = mutableListOf<Mensagem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,22 +55,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
             "Não devia estar aqui sem ter feito login!"
         )
 
-        binding.btnFlag.setOnClickListener {
-            val favTicket = FavTicket(
-                ticketDetail.id,
-                ticketDetail.myName,
-                ticketDetail.nome,
-                ticketDetail.para,
-                ticketDetail.descricao,
-                ticketDetail.status,
-                ticketDetail.prioridade,
-                ticketDetail.setor,
-                ticketDetail.dataCriacao,
-                ticketDetail.email,
-                ticketDetail.numeroTicket
-            )
-            openDialogAndSaveIntoDB(favTicket)
-        }
 
         binding.back.setOnClickListener {
             finish()
@@ -166,6 +152,72 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         }
     }
 
+
+    private fun getIsFixedFromDB(id:String){
+        Thread{
+            val app = (application as App)
+            val dao = app.db.TicketDao()
+            val response = dao.getRegisterById(id)
+
+            if(response!=null){
+                runOnUiThread{
+                    binding.btnFlag.setImageDrawable(resources.getDrawable(R.drawable.ic_pin_fixed))
+                    isfixed = true
+                    binding.btnFlag.setOnClickListener {
+                        openDialogAndRemoveIntoDB(response)
+                    }
+                }
+            }else{
+                isfixed = false
+                binding.btnFlag.setOnClickListener {
+                    val favTicket = FavTicket(
+                        ticketDetail.id,
+                        isfixed = true,
+                        ticketDetail.myName,
+                        ticketDetail.nome,
+                        ticketDetail.para,
+                        ticketDetail.descricao,
+                        ticketDetail.status,
+                        ticketDetail.prioridade,
+                        ticketDetail.setor,
+                        ticketDetail.dataCriacao,
+                        ticketDetail.email,
+                        ticketDetail.numeroTicket
+                    )
+                    openDialogAndSaveIntoDB(favTicket)
+                }
+            }
+        }.start()
+    }
+    private fun openDialogAndRemoveIntoDB(ticket: FavTicket){
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.remove_request))
+            .setMessage(getString(R.string.remove_request_description))
+            .setPositiveButton(getString(R.string.remove)) { _, _ ->
+                val app = (application as App)
+                val dao = app.db.TicketDao()
+                Thread {
+                    try {
+                        dao.delete(ticket)
+                        binding.btnFlag.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_push_pin_24))
+                    } finally {
+                        runOnUiThread {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.remove_sucess),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }.start()
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+            }
+            .create()
+            .show()
+    }
+
     private fun openDialogAndCallToClose(numero:String, id:String){
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Fechar o ${numero.lowercase(Locale.ROOT)}")
@@ -227,9 +279,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                 }
                 super.onPageStarted(view, url, favicon)
             }
-
         }
-
     }
 
     private fun populateView(ticket:TicketDetail){
@@ -261,6 +311,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                 Thread {
                     try {
                         dao.insert(ticket)
+                        binding.btnFlag.setImageDrawable(resources.getDrawable(R.drawable.ic_pin_fixed))
                     } finally {
                         runOnUiThread {
                             Toast.makeText(
@@ -284,8 +335,10 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     }
 
     override fun onResult(ticket: TicketDetail) {
+        isready = true
         ticketDetail = ticket
         populateView(ticket)
+        getIsFixedFromDB(ticket.id)
     }
 
     override fun onFailure(message: String) {

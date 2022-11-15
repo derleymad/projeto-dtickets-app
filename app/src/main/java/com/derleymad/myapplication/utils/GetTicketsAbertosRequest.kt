@@ -45,12 +45,10 @@ class GetTicketsAbertosRequest(private val callback: AbertosFragment){
                     .data("userid", "$username")
                     .data("passwd", "$password")
                     .cookies(loginForm.cookies())
-                    .timeout(2000)
                     .post()
 
                 val page= Jsoup
                     .connect(urlAbertos)
-                    .timeout(2000)
                     .cookies(loginForm.cookies())
                     .get()
 

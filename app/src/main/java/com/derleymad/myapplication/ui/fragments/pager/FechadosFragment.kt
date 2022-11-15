@@ -39,6 +39,7 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
             "Não devia estar aqui sem ter feito login!"
         )
         binding.swipeRefresh.setOnRefreshListener {
+            binding.rvFechados.visibility = View.INVISIBLE
             binding.swipeRefresh.isRefreshing = true
             GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
         }
@@ -53,6 +54,7 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
     }
 
     override fun onResult(tickets: List<Ticket>) {
+        binding.rvFechados.visibility = View.VISIBLE
         binding.rvFechados.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)

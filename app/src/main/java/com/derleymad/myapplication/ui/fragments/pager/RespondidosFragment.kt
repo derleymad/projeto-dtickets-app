@@ -39,6 +39,7 @@ class RespondidosFragment : Fragment(), GetTicketsRespondidosRequest.Callback{
             "Não devia estar aqui sem ter feito login!"
         )
         binding.swipeRefresh.setOnRefreshListener {
+            binding.rvRespondidos.visibility = View.INVISIBLE
             binding.swipeRefresh.isRefreshing = true
             GetTicketsRespondidosRequest(this@RespondidosFragment).execute(username,password)
         }
@@ -53,6 +54,7 @@ class RespondidosFragment : Fragment(), GetTicketsRespondidosRequest.Callback{
     }
 
     override fun onResult(tickets: List<Ticket>) {
+        binding.rvRespondidos.visibility = View.VISIBLE
         binding.rvRespondidos.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)

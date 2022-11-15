@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.TicketActivity
@@ -16,6 +17,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
 import java.util.concurrent.Executors
 
@@ -122,37 +124,67 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
         val qtdTickets = content.select("#threads").select("li").select("a").text()
         val tableMsg : Elements = content.select("#ticket_thread").select("table")
 
-//        val outro = tableMsg.select("tbody").select("tr").select(".Icon.file").eachAttr("href")
+        val msgsteste = page.select(".thread-body").select("div")
 
-//        Log.i("tablemsg",outro.toString())
+//        val msgStatus = page.select(".thread-entry").select("tbody tr th div span")
+        val msgStatus = page.select(".thread-entry").select("tbody").select("tr").select("th").select("div").select("span").select("[style=display:inline-block;padding-left:1em]").map { it.text() }
+        val msgDe = page.select(".thread-entry").select("tbody tr th div span [style=vertical-align:middle;]").select(".tmeta").map { it.text() }
+        val msgData = page.select(".thread-entry").select("tbody tr th div span").select("[style=display:inline-block]").map{it.text()}
+        val msgsContent = page.select(".thread-body>div")
 
-//
-//        var temImg = false
-//
-//        var linkImg = tableMsg.select("tbody").select("tr")
-//
-//        for (i in linkImg){
-//            if (i.size)
-//        }
-//
-//        try{ [2].select("td").select("a").text()}catch (e:NetworkErrorException){
+//        val statusList = mutableListOf<String>()
+//        for(i in msgStatus){
+//            statusList.add(i.text()?:"")
 //        }
 
-        for (i in tableMsg){
-            val data = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[0].wholeText()
-            val status = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[1].wholeText()
-            val de = i.select("tbody").select("tr")[0].select("th").select("div").select("span")[2].select(".tmeta.faded.title").text()
-            val mensagem = i.select("tbody").select("tr")[1].select("td").select("div").text()
+//        val datas= mutableListOf<String>()
+//        val des= mutableListOf<String>()
 
+        Log.i("dataTeste",msgData.size.toString())
+        Log.i("dataTeste",msgStatus.size.toString())
+        Log.i("dataTeste",msgDe.size.toString())
+        Log.i("dataTeste",msgsContent.size.toString())
+
+//        Log.i("dataTeste",msgStatus.toString())
+        Log.i("dataTeste",msgDe.toString())
+
+//        for (i in 0 until msgDetail.size){
+//            val data = msgDetail[i].select("th").select("div").select("span").first()?.text()
+//            val nota = msgDetail[i].select("th").select("div").select(".faded.title").first()?.text()
+//            val de = msgDetail[i].select("th").select("div").select(".tmeta.faded.title").first()?.text()
+//
+//            if (data!=null){
+//                datas.add(data)
+//            }
+//            if(nota!=null){
+//                notas.add(nota)
+//            }
+//            if(de!=null){
+//                des.add(de)
+//            }
+//           }
+        for(i in 0 until msgsContent.size){
             msgs.add(
                 Mensagem(
-                    data = data,
-                    status = status,
-                    de = de,
-                    mensagem = mensagem,
+                    data = msgData[i] ,
+                    status = msgStatus[i],
+                    de = msgDe[i],
+                    mensagem = msgsContent[i].toString()
                 )
             )
-           }
+        }
+
+
+//        for(i in msgsfinal){
+//            msgs.add(
+//                Mensagem(
+//                    data = "xx/12/2022 as 15:12",
+//                    status = "status",
+//                    de = "Wanderley",
+//                    i.toString()
+//                )
+//            )
+//        }
 
         var ticketDetail = TicketDetail(
             id = id.substring(15..20),

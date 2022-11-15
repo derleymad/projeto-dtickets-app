@@ -49,6 +49,7 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
         )
 
         binding.swipeRefresh.setOnRefreshListener {
+            binding.rvAbertos.visibility = View.INVISIBLE
             binding.swipeRefresh.isRefreshing = true
             GetTicketsAbertosRequest(this@AbertosFragment).execute(username,password)
         }
@@ -63,6 +64,7 @@ class AbertosFragment: Fragment() ,GetTicketsAbertosRequest.Callback{
     }
 
     override fun onResult(tickets: List<Ticket>) {
+        binding.rvAbertos.visibility = View.VISIBLE
         binding.rvAbertos.adapter = TicketsAdapter(tickets) { it ->
             val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)

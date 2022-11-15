@@ -1,10 +1,12 @@
 package com.derleymad.myapplication.adapter
 
-import android.util.Log
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Mensagem
@@ -15,13 +17,20 @@ class TicketMensagemAdapter(private val list : List<Mensagem>,private val myName
         abstract fun bind(itemCurrent: Mensagem)
     }
 
+    private fun noTrailingwhiteLines(text: CharSequence): CharSequence? {
+        var text = text
+        while (text[text.length - 1] == '\n') {
+            text = text.subSequence(0, text.length - 1)
+        }
+        return text
+    }
 
     inner class SendViewHolder(itemView: View) : GenericViewHolder(itemView){
         override fun bind(itemCurrent: Mensagem) {
             val data = itemView.findViewById<TextView>(R.id.tv_date)
             val mensagem = itemView.findViewById<TextView>(R.id.tv_msg)
             data.text = itemCurrent.data
-            mensagem.text = itemCurrent.mensagem
+            mensagem.text = HtmlCompat.fromHtml(itemCurrent.mensagem,HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_DIV).trim()
         }
     }
 
@@ -30,8 +39,10 @@ class TicketMensagemAdapter(private val list : List<Mensagem>,private val myName
             val data = itemView.findViewById<TextView>(R.id.tv_date)
             val mensagem = itemView.findViewById<TextView>(R.id.tv_msg)
             val de = itemView.findViewById<TextView>(R.id.tv_de)
+
             data.text = itemCurrent.data
-            mensagem.text = itemCurrent.mensagem
+//            mensagem.text = Html.fromHtml(itemCurrent.mensagem)
+            mensagem.text = HtmlCompat.fromHtml(itemCurrent.mensagem,HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_DIV).trim()
             de.text = itemCurrent.de
         }
     }

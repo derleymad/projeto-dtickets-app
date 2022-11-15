@@ -4,15 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.derleymad.myapplication.App
 import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentMeusBinding
@@ -20,13 +17,10 @@ import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.utils.GetTicketsMeusRequest
 import com.derleymad.myapplication.utils.Pojo
 import com.google.android.material.snackbar.Snackbar
-import java.util.concurrent.Executors
-
 
 class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
 
     private lateinit var binding : FragmentMeusBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +43,7 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
         )
         binding.swipeRefresh.setOnRefreshListener {
             binding.swipeRefresh.isRefreshing = true
+            binding.rvMeus.visibility = View.INVISIBLE
             GetTicketsMeusRequest(this@MeusFragment).execute(username, password)
         }
             GetTicketsMeusRequest(this@MeusFragment).execute(username,password)
@@ -73,6 +68,7 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
     }
 
     override fun onResult(tickets: List<Ticket>) {
+        binding.rvMeus.visibility = View.VISIBLE
         binding.rvMeus.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
             startActivity(intent)
