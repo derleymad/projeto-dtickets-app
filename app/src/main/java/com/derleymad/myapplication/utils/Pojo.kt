@@ -17,7 +17,9 @@ class Pojo {
                     para = "xxxxx",
                     prioridade = "xxxxxx",
                     de = "xxxxx",
-                    numero = "xxxxxx"
+                    numero = "xxxxxx",
+                    type = "pojo",
+                    size = "999"
                 )
             )
         }
@@ -47,7 +49,8 @@ class Pojo {
             bloco = "x",
             setorSolicitante = "xxxxxxxxxxxxx",
             nome = "xxxxxx",
-            id = "xxxxxx"
+            id = "xxxxxx",
+            type = "closed"
         )
     }
 }

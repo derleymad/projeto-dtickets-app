@@ -24,6 +24,23 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_circle"
+                android:drawablePadding="2dp"
+                android:drawableTint="@color/green_ufca"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:text=""
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/para"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/para"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 style="@style/Theme.MyApplication.ContainerInfo.Text.Others"
                 android:id="@+id/priority_static"
                 android:layout_width="wrap_content"

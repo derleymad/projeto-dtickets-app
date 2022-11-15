@@ -54,8 +54,16 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-
-
+//
+//        binding.btnFlag.setOnClickListener {
+//            if(isready){
+//                if(isfixed){
+//                    openDialogAndRemoveIntoDB()
+//                }else{
+//                    openDialogAndSaveIntoDB()
+//                }
+//            }
+//        }
         binding.back.setOnClickListener {
             finish()
         }
@@ -65,7 +73,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                 binding.btnSend.visibility = View.GONE
                 binding.editMessage.setTextColor(resources.getColor(R.color.gray_text))
                 loginAndPostMessage(binding.editMessage.text.toString(),id)
-
             }
         }
 
@@ -171,18 +178,19 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
                 isfixed = false
                 binding.btnFlag.setOnClickListener {
                     val favTicket = FavTicket(
-                        ticketDetail.id,
+                        id=ticketDetail.id,
+                        type = ticketDetail.type,
                         isfixed = true,
-                        ticketDetail.myName,
-                        ticketDetail.nome,
-                        ticketDetail.para,
-                        ticketDetail.descricao,
-                        ticketDetail.status,
-                        ticketDetail.prioridade,
-                        ticketDetail.setor,
-                        ticketDetail.dataCriacao,
-                        ticketDetail.email,
-                        ticketDetail.numeroTicket
+                        myName = ticketDetail.myName,
+                        de = ticketDetail.nome,
+                        para = ticketDetail.para,
+                        descricao = ticketDetail.descricao,
+                        status = ticketDetail.status,
+                        prioridade = ticketDetail.prioridade,
+                        setor = ticketDetail.setor,
+                        dataCriacao = ticketDetail.dataCriacao,
+                        email = ticketDetail.email,
+                        numeroTicket = ticketDetail.numeroTicket
                     )
                     openDialogAndSaveIntoDB(favTicket)
                 }
@@ -336,9 +344,10 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
 
     override fun onResult(ticket: TicketDetail) {
         isready = true
+
+        getIsFixedFromDB(ticket.id)
         ticketDetail = ticket
         populateView(ticket)
-        getIsFixedFromDB(ticket.id)
     }
 
     override fun onFailure(message: String) {

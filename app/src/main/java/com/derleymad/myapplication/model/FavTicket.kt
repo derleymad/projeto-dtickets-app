@@ -9,6 +9,7 @@ data class FavTicket(
     @PrimaryKey(autoGenerate = false) val id : String,
     @ColumnInfo(name = "isfixed") val isfixed : Boolean = true,
     @ColumnInfo(name = "myname") val myName : String,
+    @ColumnInfo(name = "type") val type : String,
     @ColumnInfo(name = "de") val de : String,
     @ColumnInfo(name = "para") val para: String,
     @ColumnInfo(name = "descricao") val descricao : String,

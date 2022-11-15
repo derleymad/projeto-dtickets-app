@@ -48,7 +48,20 @@ class FixadosFragment : Fragment() {
 
             }else{
                 for (i in response){
-                    list.add(Ticket(isfixed = true,i.id,i.email,i.numeroTicket,i.descricao,i.dataCriacao,i.de,i.para,i.prioridade))
+                    list.add(Ticket(
+                        isfixed = true,
+                        id = i.id,
+                        email = i.email,
+                        numero = i.numeroTicket,
+                        data = i.dataCriacao,
+                        de = i.de,
+                        prioridade = i.prioridade,
+                        type = i.type,
+                        assunto = i.descricao,
+                        para = i.para,
+                        size = ""
+                    ))
+//                        i.descricao,i.dataCriacao,i.de,i.para,i.prioridade,type = i.type))
                 }
                 handler.post{
                     binding.rvFixados.adapter = TicketsAdapter(list){ it ->

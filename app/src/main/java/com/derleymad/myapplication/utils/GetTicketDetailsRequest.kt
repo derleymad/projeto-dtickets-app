@@ -4,20 +4,13 @@ import android.accounts.NetworkErrorException
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import androidx.core.text.htmlEncode
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.TicketActivity
-import com.derleymad.myapplication.adapter.TicketMensagemAdapter
 import com.derleymad.myapplication.model.Mensagem
-import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.model.TicketDetail
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
-import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
 import java.util.concurrent.Executors
 
@@ -58,7 +51,7 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
         //FIM DO EXECUTORS
     }
 
-    fun loginAndGetTicket(username: String,password: String, id: String) : TicketDetail{
+    fun loginAndGetTicket(username: String, password: String, id: String): TicketDetail {
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         val msgs = mutableListOf<Mensagem>()
 
@@ -73,12 +66,12 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
             .cookies(loginForm.cookies())
             .post()
 
-        val page= Jsoup
+        val page = Jsoup
             .connect(url)
             .cookies(loginForm.cookies())
             .get()
 
-        val content : Elements = page.select("#content")
+        val content: Elements = page.select("#content")
 
         val numeroTicket = content
             .select("table")[0]
@@ -94,42 +87,72 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
         val secondTable = content
             .select(".ticket_info")[1]
 
-        val secondTableLeft= secondTable.select("tbody").select("tr").select("td:nth-child(1)")
+        val secondTableLeft = secondTable.select("tbody").select("tr").select("td:nth-child(1)")
         val secondTableRight = secondTable.select("tbody").select("tr").select("td:nth-child(2)")
 
         val thirdTable = content.select(".ticket_info")[2]
 
         val myName = page.select("#info").select("strong").text()
-        Log.i("myname",myName)
+        Log.i("myname", myName)
         val descricao = content.select(">h2").text()
-        val id = content.select("table").select("tbody").select("tr").select("td").select("h2").select("a").attr("href")
-        val status = firstTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
-        val prioridade = firstTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
-        val setor = firstTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
-        val dataCriacao = firstTableLeft.select("table").select("tbody").select("tr")[3].select("td").text()
-        val email = firstTableRight.select("table").select("tbody").select("tr")[1].select("td").select("span").text()
-        val numero = firstTableRight.select("table").select("tbody").select("tr")[2].select("td").select("span").text()
-        val para = secondTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
-        val slaPlan = secondTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
-        val dueDate = secondTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
-        val ultimaMensagem = secondTableRight.select("table").select("tbody").select("tr")[1].select("td").text()
-        val ultimaResposta = secondTableRight.select("table").select("tbody").select("tr")[2].select("td").text()
-        val servicos = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[0].select("td").text()
-        val campus = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[1].select("td").text()
-        val sala = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[2].select("td").text()
-        val bloco = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[3].select("td").text()
-        val setorSolicitante = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[4].select("td").text()
-        val nome = thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody").select("tr")[5].select("td").text()
+        val id = content.select("table").select("tbody").select("tr").select("td").select("h2")
+            .select("a").attr("href")
+        val status =
+            firstTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
+        val prioridade =
+            firstTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
+        val setor =
+            firstTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
+        val dataCriacao =
+            firstTableLeft.select("table").select("tbody").select("tr")[3].select("td").text()
+        val email = firstTableRight.select("table").select("tbody").select("tr")[1].select("td")
+            .select("span").text()
+        val numero = firstTableRight.select("table").select("tbody").select("tr")[2].select("td")
+            .select("span").text()
+        val para =
+            secondTableLeft.select("table").select("tbody").select("tr")[0].select("td").text()
+        val slaPlan =
+            secondTableLeft.select("table").select("tbody").select("tr")[1].select("td").text()
+        val dueDate =
+            secondTableLeft.select("table").select("tbody").select("tr")[2].select("td").text()
+        val ultimaMensagem =
+            secondTableRight.select("table").select("tbody").select("tr")[1].select("td").text()
+        val ultimaResposta =
+            secondTableRight.select("table").select("tbody").select("tr")[2].select("td").text()
+        val servicos =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[0].select("td").text()
+        val campus =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[1].select("td").text()
+        val sala =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[2].select("td").text()
+        val bloco =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[3].select("td").text()
+        val setorSolicitante =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[4].select("td").text()
+        val nome =
+            thirdTable.select("tbody").select("tr").select("td").select("table").select("tbody")
+                .select("tr")[5].select("td").text()
 
         val qtdTickets = content.select("#threads").select("li").select("a").text()
-        val tableMsg : Elements = content.select("#ticket_thread").select("table")
+        val tableMsg: Elements = content.select("#ticket_thread").select("table")
 
         val msgsteste = page.select(".thread-body").select("div")
 
 //        val msgStatus = page.select(".thread-entry").select("tbody tr th div span")
-        val msgStatus = page.select(".thread-entry").select("tbody").select("tr").select("th").select("div").select("span").select("[style=display:inline-block;padding-left:1em]").map { it.text() }
-        val msgDe = page.select(".thread-entry").select("tbody tr th div span [style=vertical-align:middle;]").select(".tmeta").map { it.text() }
-        val msgData = page.select(".thread-entry").select("tbody tr th div span").select("[style=display:inline-block]").map{it.text()}
+        val msgStatus =
+            page.select(".thread-entry").select("tbody").select("tr").select("th").select("div")
+                .select("span").select("[style=display:inline-block;padding-left:1em]")
+                .map { it.text() }
+        val msgDe = page.select(".thread-entry")
+            .select("tbody tr th div span [style=vertical-align:middle;]").select(".tmeta")
+            .map { it.text() }
+        val msgData = page.select(".thread-entry").select("tbody tr th div span")
+            .select("[style=display:inline-block]").map { it.text() }
         val msgsContent = page.select(".thread-body>div")
 
 //        val statusList = mutableListOf<String>()
@@ -140,13 +163,13 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
 //        val datas= mutableListOf<String>()
 //        val des= mutableListOf<String>()
 
-        Log.i("dataTeste",msgData.size.toString())
-        Log.i("dataTeste",msgStatus.size.toString())
-        Log.i("dataTeste",msgDe.size.toString())
-        Log.i("dataTeste",msgsContent.size.toString())
+        Log.i("dataTeste", msgData.size.toString())
+        Log.i("dataTeste", msgStatus.size.toString())
+        Log.i("dataTeste", msgDe.size.toString())
+        Log.i("dataTeste", msgsContent.size.toString())
 
 //        Log.i("dataTeste",msgStatus.toString())
-        Log.i("dataTeste",msgDe.toString())
+        Log.i("dataTeste", msgDe.toString())
 
 //        for (i in 0 until msgDetail.size){
 //            val data = msgDetail[i].select("th").select("div").select("span").first()?.text()
@@ -163,10 +186,10 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
 //                des.add(de)
 //            }
 //           }
-        for(i in 0 until msgsContent.size){
+        for (i in 0 until msgsContent.size) {
             msgs.add(
                 Mensagem(
-                    data = msgData[i] ,
+                    data = msgData[i],
                     status = msgStatus[i],
                     de = msgDe[i],
                     mensagem = msgsContent[i].toString()
@@ -174,19 +197,7 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
             )
         }
 
-
-//        for(i in msgsfinal){
-//            msgs.add(
-//                Mensagem(
-//                    data = "xx/12/2022 as 15:12",
-//                    status = "status",
-//                    de = "Wanderley",
-//                    i.toString()
-//                )
-//            )
-//        }
-
-        var ticketDetail = TicketDetail(
+        return TicketDetail(
             id = id.substring(15..20),
             myName = myName,
             descricao = descricao,
@@ -208,8 +219,8 @@ class GetTicketDetailsRequest(private val callback: TicketActivity){
             bloco = bloco,
             setorSolicitante = setorSolicitante,
             nome = nome,
-            msgs = msgs
+            msgs = msgs,
+            type = ""
         )
-        return ticketDetail
     }
 }

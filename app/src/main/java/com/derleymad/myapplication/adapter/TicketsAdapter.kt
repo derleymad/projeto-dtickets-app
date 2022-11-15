@@ -39,13 +39,19 @@ class TicketsAdapter(
             val de = itemView.findViewById<TextView>(R.id.de)
             val para = itemView.findViewById<TextView>(R.id.para)
             val data = itemView.findViewById<TextView>(R.id.data)
-
-            description.text = itemCurrent.assunto
+            val badge = itemView.findViewById<TextView>(R.id.badge)
+                    description.text = itemCurrent.assunto
             number.text = "#"+itemCurrent.numero
             de.text = itemCurrent.de
             para.text = itemCurrent.para
             data.text = itemCurrent.data
             prioridade.text = itemCurrent.prioridade
+            if(itemCurrent.type=="aberto"){
+                badge.visibility = View.VISIBLE
+                badge.text = itemCurrent.size
+            }else{
+                badge.visibility = View.GONE
+            }
             prioridade.setTextColor(when(itemCurrent.prioridade){
                 "Emergency" -> itemView.resources.getColor(R.color.emergency_priority)
                 "High" -> itemView.resources.getColor(R.color.high_priority)

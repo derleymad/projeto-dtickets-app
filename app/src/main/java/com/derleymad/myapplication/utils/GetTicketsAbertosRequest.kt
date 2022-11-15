@@ -59,6 +59,7 @@ class GetTicketsAbertosRequest(private val callback: AbertosFragment){
                 val email = table.select("td:nth-child(2)").eachAttr("title")
                 val data = table.select("td:nth-child(3)").eachText()
                 val assunto = table.select("td:nth-child(4)").select("a").eachText()
+                val size = table.select("td:nth-child(4)").select("small").eachText()
                 val de = table.select("td:nth-child(5)").eachText()
                 val prioridade = table.select("td:nth-child(6)").eachText()
                 val para = table.select("td:nth-child(7)").eachText()
@@ -73,7 +74,9 @@ class GetTicketsAbertosRequest(private val callback: AbertosFragment){
                             assunto = assunto[i] ,
                             de = de[i],
                             prioridade = prioridade[i],
-                            para = para[i]
+                            para = para[i],
+                            type = "aberto",
+                            size = size[i]
                         )
                     )
                 }

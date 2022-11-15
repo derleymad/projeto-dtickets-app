@@ -57,21 +57,19 @@ class BaseFragment : Fragment() {
     private fun setupTabLayout() {
         binding.apply {
             viewPager.adapter = PagerAdapter(requireActivity())
-            viewPager.offscreenPageLimit = 4
+            viewPager.offscreenPageLimit = 3
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
                 0 -> "Meus"
-                1 -> "Abertos"
-                2 -> "Respondidos"
-                3 -> "Fechados"
+                1 -> "Em aberto"
+                2 -> "Fechados"
                 else -> throw  Resources.NotFoundException("Posição não encontrada!")
             }
             tab.setIcon(
                 when (position) {
                     0 -> R.drawable.ic_baseline_person_24
                     1 -> R.drawable.ic_baseline_folder_open_24
-                    2 -> R.drawable.ic_baseline_draw_24
-                    3 -> R.drawable.ic_baseline_done_all_24
+                    2 -> R.drawable.ic_baseline_done_all_24
                     else -> throw  Resources.NotFoundException("Posição não encontrada!")
                 }
             )
