@@ -22,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
 
     private lateinit var binding : FragmentOverviewBinding
+    private lateinit var username : String
+    private lateinit var password : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,14 +38,12 @@ class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val sharedPreference =  view.context.getSharedPreferences("credentials", Context.MODE_PRIVATE)
 
-        val username = sharedPreference.getString("username","none")?: throw  java.lang.IllegalStateException(
+        username = sharedPreference.getString("username","none")?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-        val password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
+        password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-
-
 
         GetOverviewRequest(this@OverviewFragment).execute(username,password)
         super.onViewCreated(view, savedInstanceState)
@@ -69,8 +69,12 @@ class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
     override fun onFailure(message: String) {
 
         binding.included.errorContainer.visibility = View.VISIBLE
-        Snackbar.make(binding.root,"Sem conexão", Snackbar.LENGTH_SHORT)
-            .show()
+        binding.progressBar.visibility = View.GONE
+        binding.included.retry.setOnClickListener {
+            GetOverviewRequest(this@OverviewFragment).execute(username,password)
+        }
+//        Snackbar.make(binding.root,"Sem conexão", Snackbar.LENGTH_SHORT)
+//            .show()
         Log.e("error_internet_overview",message)
     }
 

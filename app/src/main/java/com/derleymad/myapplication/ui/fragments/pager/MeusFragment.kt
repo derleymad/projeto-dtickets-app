@@ -46,6 +46,11 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
             binding.rvMeus.visibility = View.INVISIBLE
             GetTicketsMeusRequest(this@MeusFragment).execute(username, password)
         }
+        binding.included.retry.setOnClickListener {
+            binding.swipeRefresh.isRefreshing = true
+            binding.rvMeus.visibility = View.INVISIBLE
+            GetTicketsMeusRequest(this@MeusFragment).execute(username, password)
+        }
             GetTicketsMeusRequest(this@MeusFragment).execute(username,password)
 //        bindPojo()
     }
@@ -61,8 +66,8 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
     }
 
     override fun onPreExecute() {
-    if(binding.swipeRefresh.isRefreshing){
         binding.included.errorContainer.visibility = View.INVISIBLE
+    if(binding.swipeRefresh.isRefreshing){
         binding.progressBar.visibility = View.INVISIBLE
         }
     }

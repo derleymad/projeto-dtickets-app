@@ -23,6 +23,7 @@ class FixadosFragment : Fragment() {
     private val executor = Executors.newSingleThreadExecutor()
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var list : MutableList<Ticket>
+    private var newChanges = false
 
 
     override fun onCreateView(
@@ -40,6 +41,15 @@ class FixadosFragment : Fragment() {
             getDB()
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        if(newChanges){
+            binding.swipeRefresh.isRefreshing = true
+            getDB()
+            newChanges = false
+        }
+        super.onResume()
     }
 
     fun getDB(){
@@ -83,7 +93,8 @@ class FixadosFragment : Fragment() {
                         intent.putExtra("id", it)
                         startActivity(intent)
                     }
-                    binding.rvFixados.layoutManager = LinearLayoutManager(requireContext())
+                    binding.rvFixados.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                    binding.rvFixados.scrollToPosition(list.size-1)
                 }
             }
         }

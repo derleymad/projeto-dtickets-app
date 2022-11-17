@@ -41,14 +41,14 @@ class DashboardFragment : Fragment() {
             viewPager.offscreenPageLimit = 4
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
-                    0 -> "Overview"
-                    1 -> "Fixados"
+                    0 -> "Fixados"
+                    1 -> "Overview"
                     else -> throw  Resources.NotFoundException("Posição não encontrada!")
                 }
                 tab.setIcon(
                     when (position) {
-                        0 -> R.drawable.ic_baseline_person_24
-                        1 -> R.drawable.ic_baseline_push_pin_24
+                        0 -> R.drawable.ic_baseline_push_pin_24
+                        1 -> R.drawable.ic_baseline_person_24
                         else -> throw  Resources.NotFoundException("Posição não encontrada!")
                     }
                 )

@@ -13,10 +13,10 @@ class PagerAdapterDashboard(fragmentActivity: FragmentActivity) :
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                OverviewFragment()
+                FixadosFragment()
             }
             1 -> {
-                FixadosFragment()
+                OverviewFragment()
             }
             else -> {
                 throw Resources.NotFoundException("Posição nao foi achada!")

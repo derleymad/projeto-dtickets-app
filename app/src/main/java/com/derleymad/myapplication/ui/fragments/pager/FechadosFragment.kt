@@ -43,12 +43,17 @@ class FechadosFragment : Fragment(),GetTicketsFechadosRequest.Callback {
             binding.swipeRefresh.isRefreshing = true
             GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
         }
+        binding.included.retry.setOnClickListener {
+            binding.swipeRefresh.isRefreshing = true
+            binding.rvFechados.visibility = View.INVISIBLE
+            GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
+        }
         GetTicketsFechadosRequest(this@FechadosFragment).execute(username,password)
     }
 
     override fun onPreExecute() {
+        binding.included.errorContainer.visibility = View.INVISIBLE
         if(binding.swipeRefresh.isRefreshing){
-            binding.included.errorContainer.visibility = View.INVISIBLE
             binding.progressBar.visibility = View.INVISIBLE
         }
     }

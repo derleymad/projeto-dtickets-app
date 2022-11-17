@@ -14,6 +14,7 @@ import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentBothBinding
 import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.utils.GetTicketsBothRequest
+import com.derleymad.myapplication.utils.GetTicketsMeusRequest
 import com.google.android.material.snackbar.Snackbar
 
 class BothFragment : Fragment() , GetTicketsBothRequest.Callback{
@@ -46,14 +47,20 @@ class BothFragment : Fragment() , GetTicketsBothRequest.Callback{
             binding.swipeRefresh.isRefreshing = true
             GetTicketsBothRequest(this@BothFragment).execute(username,password)
         }
+
+        binding.included.retry.setOnClickListener {
+            binding.swipeRefresh.isRefreshing = true
+            binding.rvBoth.visibility = View.INVISIBLE
+            GetTicketsBothRequest(this@BothFragment).execute(username, password)
+        }
         GetTicketsBothRequest(this@BothFragment).execute(username,password)
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onPreExecute() {
+        binding.included.errorContainer.visibility = View.INVISIBLE
         if(binding.swipeRefresh.isRefreshing){
-            binding.included.errorContainer.visibility = View.INVISIBLE
             binding.progressBar.visibility = View.INVISIBLE
         }
     }
