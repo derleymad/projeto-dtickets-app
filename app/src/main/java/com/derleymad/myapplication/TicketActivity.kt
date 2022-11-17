@@ -50,7 +50,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-
         val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )

@@ -1,7 +1,6 @@
 package com.derleymad.myapplication.ui.fragments.pager.dashboard
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -10,27 +9,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.derleymad.myapplication.R
-import com.derleymad.myapplication.databinding.FragmentDashboardBinding
-import com.derleymad.myapplication.databinding.FragmentMeusBinding
 import com.derleymad.myapplication.databinding.FragmentOverviewBinding
 import com.derleymad.myapplication.model.Overview
-import com.derleymad.myapplication.model.Ticket
-import com.derleymad.myapplication.ui.fragments.navigation.DashboardFragment
 import com.derleymad.myapplication.utils.GetOverviewRequest
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import com.google.android.material.snackbar.Snackbar
-import org.jsoup.Connection
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
-
 
 class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
 
@@ -55,6 +42,9 @@ class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
         val password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
+
+
+
         GetOverviewRequest(this@OverviewFragment).execute(username,password)
         super.onViewCreated(view, savedInstanceState)
     }

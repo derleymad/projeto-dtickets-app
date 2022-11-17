@@ -14,6 +14,7 @@
     <color name="emergency_priority">#FF2424</color>
     <color name="background_ticket_details">#eeeeee</color>
     <color name="green_ufca">#92bc45</color>
+    <color name="green">#8BC34A</color>
     <color name="green_send_mensage">#e2ffc5</color>
     <color name="textGray">#9f9faf</color>
     <color name="transparent">#1A716C6C</color>

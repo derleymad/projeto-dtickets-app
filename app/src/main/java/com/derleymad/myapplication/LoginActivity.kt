@@ -5,12 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.derleymad.myapplication.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -18,11 +16,9 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private lateinit var editor : SharedPreferences.Editor
-    var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -30,10 +26,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val sharedPreference =  getSharedPreferences("credentials", Context.MODE_PRIVATE)
+
         editor = sharedPreference.edit()
         if(sharedPreference.getBoolean("autologin",false)){
             val intent = Intent(this@LoginActivity,MainActivity::class.java)
             startActivity(intent)
+            finish()
+        }else{
         }
 
         binding.contentMain.username.addTextChangedListener(watcher)
@@ -47,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 )
             }else{
                 Snackbar.make(binding.root,"Sem conexão com a internet",Snackbar.LENGTH_SHORT).show()
+
             }
         }
     }
@@ -98,24 +98,31 @@ class LoginActivity : AppCompatActivity() {
                 .cookies(loginForm.cookies())
                 .post()
 
-            runOnUiThread {
-                if(doc.body().toString().contains("Invalid login")){
+            val invalidLogin : Boolean = doc.body().toString().contains("Invalid login")
 
+            if(!invalidLogin){
+                val myname=doc.body().select("#info strong").text()
+                Log.i("myname",myname)
+                editor.putString("myname",myname)
+            }
+
+            runOnUiThread {
+                if(invalidLogin){
                     binding.contentMain.progressBar.visibility = View.GONE
                     binding.contentMain.loginBtnEnter.visibility = View.VISIBLE
-                    binding.contentMain.loginTxtInputLayoutEmail.error =  "Usuário incorreto"
-                    binding.contentMain.loginTxtInputLayoutPassword.error =  "Senha incorreta"
+                    binding.contentMain.loginTxtInputLayoutPassword.error =  "Usuário ou senha incorreta!"
                 }else{
-                    val numbersList = doc.select("#sub_nav").select("ul").select("a").eachText()
                     if(binding.contentMain.checkbox.isChecked){
                         editor.putBoolean("autologin",true)
                         editor.putString("username",binding.contentMain.username.text.toString())
                         editor.putString("password",binding.contentMain.password.text.toString())
                         editor.apply()
+                    }else{
+                        editor.putString("username",binding.contentMain.username.text.toString())
+                        editor.putString("password",binding.contentMain.password.text.toString())
+                        editor.apply()
                     }
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
-                    intent.putExtra("username",binding.contentMain.username.text.toString())
-                    intent.putExtra("password",binding.contentMain.password.text.toString())
                     startActivity(intent)
                     finish()
                 }

@@ -1,5 +1,6 @@
 package com.derleymad.myapplication.ui.fragments.navigation
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.derleymad.myapplication.R
-import com.derleymad.myapplication.adapter.PagerAdapter
 import com.derleymad.myapplication.adapter.PagerAdapterDashboard
-import com.derleymad.myapplication.databinding.FragmentBaseBinding
 import com.derleymad.myapplication.databinding.FragmentDashboardBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -26,6 +25,14 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater,container,false)
         setupTabLayout()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sharedPreference =  view.context.getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        val myname = sharedPreference.getString("myname","Bem-vindo(a)")
+        binding.nameOfPerson.text = myname
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setupTabLayout() {

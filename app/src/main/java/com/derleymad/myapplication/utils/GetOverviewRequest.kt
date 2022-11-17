@@ -1,6 +1,5 @@
 package com.derleymad.myapplication.utils
 
-import android.accounts.NetworkErrorException
 import android.os.Handler
 import android.os.Looper
 import com.derleymad.myapplication.R

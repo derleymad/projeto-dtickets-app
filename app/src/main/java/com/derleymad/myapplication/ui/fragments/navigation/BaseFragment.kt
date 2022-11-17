@@ -23,7 +23,6 @@ class BaseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 //        (activity as AppCompatActivity).supportActionBar?.title = "Home"
         _binding = FragmentBaseBinding.inflate(inflater,container,false)
         setupTabLayout()
@@ -44,7 +43,6 @@ class BaseFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId){
                     R.id.menu_search -> {
-                        Toast.makeText(requireContext(),"Search",Toast.LENGTH_SHORT).show()
                         true
                     }
                     else -> false
@@ -61,7 +59,7 @@ class BaseFragment : Fragment() {
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
                 0 -> "Meus"
-                1 -> "Em aberto"
+                1 -> "Em andamento"
                 2 -> "Fechados"
                 else -> throw  Resources.NotFoundException("Posição não encontrada!")
             }

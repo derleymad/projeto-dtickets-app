@@ -9,14 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.derleymad.myapplication.R
 import com.derleymad.myapplication.TicketActivity
 import com.derleymad.myapplication.adapter.TicketsAdapter
 import com.derleymad.myapplication.databinding.FragmentBothBinding
-import com.derleymad.myapplication.databinding.FragmentFechadosBinding
 import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.utils.GetTicketsBothRequest
-import com.derleymad.myapplication.utils.GetTicketsFechadosRequest
 import com.google.android.material.snackbar.Snackbar
 
 class BothFragment : Fragment() , GetTicketsBothRequest.Callback{

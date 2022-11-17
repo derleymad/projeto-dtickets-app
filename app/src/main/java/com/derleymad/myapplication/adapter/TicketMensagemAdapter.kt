@@ -1,12 +1,10 @@
 package com.derleymad.myapplication.adapter
 
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
-import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.RecyclerView
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.model.Mensagem
