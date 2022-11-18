@@ -10,5 +10,8 @@ class App : Application(){
     override fun onCreate() {
         super.onCreate()
         db = AppDataBase.getDataBase(this@App)
+
+        val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+
     }
 }

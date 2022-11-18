@@ -17,8 +17,10 @@
     <LinearLayout
         android:id="@+id/mainContainer"
         android:visibility="invisible"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_marginBottom="32dp"
         android:weightSum="1"
         android:layout_height="match_parent">
         <androidx.cardview.widget.CardView

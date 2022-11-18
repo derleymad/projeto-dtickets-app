@@ -93,7 +93,9 @@ class FixadosFragment : Fragment() {
                         intent.putExtra("id", it)
                         startActivity(intent)
                     }
-                    binding.rvFixados.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                    val layout = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                    binding.rvFixados.layoutManager = layout
+                    layout.stackFromEnd = true
                     binding.rvFixados.scrollToPosition(list.size-1)
                 }
             }

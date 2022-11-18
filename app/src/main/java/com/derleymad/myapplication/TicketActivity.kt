@@ -53,19 +53,21 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         password = sharedPreference.getString("password","none")?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-        val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
+
+       val isInteract = getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("isInteract",false)
+
+       val id = intent?.extras?.getString("id", "110652") ?: throw  java.lang.IllegalStateException(
             "Não devia estar aqui sem ter feito login!"
         )
-//
-//        binding.btnFlag.setOnClickListener {
-//            if(isready){
-//                if(isfixed){
-//                    openDialogAndRemoveIntoDB()
-//                }else{
-//                    openDialogAndSaveIntoDB()
-//                }
-//            }
-//        }
+
+        if (!isInteract){
+            binding.editSendContainer.visibility = View.GONE
+//            binding.editSendContainer.isEnabled = false
+        }else{
+            setClickOnMoreBtn(id)
+            binding.editSendContainer.visibility = View.VISIBLE
+        }
+
         binding.back.setOnClickListener {
             finish()
         }
@@ -82,6 +84,17 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
             binding.rvMensagens.smoothScrollToPosition(msgs.size-1)
         }
 
+
+
+        GetTicketDetailsRequest(this@TicketActivity).execute(username,password,id)
+//        bindPojo(Pojo().getTicketDetail())
+
+    }
+    private fun bindPojo(ticket:TicketDetail){
+        populateView(ticket)
+    }
+
+    private fun setClickOnMoreBtn(id: String){
         binding.btnMore.setOnClickListener {
             val popupMenu = PopupMenu(this,binding.btnMore)
             popupMenu.menuInflater.inflate(R.menu.menu,popupMenu.menu)
@@ -106,15 +119,7 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
             }
             popupMenu.show()
         }
-
-        GetTicketDetailsRequest(this@TicketActivity).execute(username,password,id)
-//        bindPojo(Pojo().getTicketDetail())
-
     }
-    private fun bindPojo(ticket:TicketDetail){
-        populateView(ticket)
-    }
-
     private fun loginAndPostMessage(message: String,id:String) {
         val url = "https://atendimento.ufca.edu.br/scp/tickets.php?id=$id"
         binding.webView.clearCache(true)

@@ -3,12 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/background"
     tools:context=".ui.fragments.navigation.SettingsFragment">
 
-    <TextView
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Settings" />
+    <LinearLayout
+        android:id="@+id/settingContainer"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="start"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Funcionalidades" />
+        <TextView
+            android:layout_gravity="start"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Habilitar interações no ticket" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:buttonTintMode="add"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Essa opção ainda está em desenvolvimento e pode conter falhas."
+                android:textColor="@color/gray_text"
+                app:trackTint="@color/gray_text"
+                android:theme="@style/SCBSwitch"
+                />
+
+    </LinearLayout>
 
 </FrameLayout>

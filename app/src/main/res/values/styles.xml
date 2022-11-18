@@ -64,4 +64,9 @@
         <item name="cornerSizeBottomLeft">24dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/blue_enabled</item>
+        <!-- inactive thumb color -->
+    </style>
 </resources>
