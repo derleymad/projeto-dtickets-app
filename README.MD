@@ -1,9 +1,24 @@
-## Screenshots
- <img src="images/gif.gif" width="200" />
+## Dark theme
+
 <p float="left">
-  <img src="images/login.jpeg" width="200" /> 
-  <img src="images/tickets.jpeg" width="200" />
-  <img src="images/chat.jpeg" width="200" />
+  <img src="images/dark/login.jpeg" width="200" /> 
+  <img src="images/dark/tickets.jpeg" width="200" />
+    <img src="images/dark/fixados.jpeg" width="200" />
+      <img src="images/dark/overview.jpeg" width="200" />
+  <img src="images/dark/mensagens.jpeg" width="200" />
+  <img src="images/dark/settings.jpeg" width="200" />
+</p>
+
+## Light theme
+
+<p float="left">
+  <img src="images/light/login.jpeg" width="200" /> 
+  <img src="images/light/tickets.jpeg" width="200" />
+    <img src="images/light/fixados.jpeg" width="200" />
+      <img src="images/dark/overview.jpeg" width="200" />
+  <img src="images/light/mensagens.jpeg" width="200" />
+  <img src="images/light/settings.jpeg" width="200" />
+    <img src="images/light/extra.jpeg" width="200" />
 </p>
 
 ## Tecnologia
