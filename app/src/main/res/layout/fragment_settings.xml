@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="?attr/background"
     tools:context=".ui.fragments.navigation.SettingsFragment">
 
     <LinearLayout
-        android:id="@+id/settingContainer"
+        android:id="@+id/funcionalidadesContainer"
         android:orientation="vertical"
         android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
@@ -19,7 +20,7 @@
             android:layout_gravity="start"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="@color/gray_text"
+            android:textColor="@color/textGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -48,5 +49,45 @@
                 />
 
     </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/temasContainer"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <TextView-->
+<!--            android:layout_gravity="start"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/textGray"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="12dp"-->
+<!--            android:text="Temas e estilos" />-->
+<!--        <TextView-->
+<!--            android:layout_gravity="start"-->
+<!--            android:textColor="?attr/colorOnSecondary"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Habilitar tema escuro" />-->
 
-</FrameLayout>
+<!--        <androidx.appcompat.widget.SwitchCompat-->
+<!--            android:id="@+id/switch_theme"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.2"-->
+<!--            android:buttonTintMode="add"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:text="Um tema elegante, escuro e que se adapta bem a noite, ideal para usuários exigentes."-->
+<!--            android:textColor="@color/gray_text"-->
+<!--            app:trackTint="@color/gray_text"-->
+<!--            android:theme="@style/SCBSwitch"-->
+<!--            />-->
+<!--    </LinearLayout>-->
+
+</LinearLayout>

@@ -38,6 +38,4 @@ class SettingsFragment : Fragment() {
         )
         super.onViewCreated(view, savedInstanceState)
     }
-
-
 }
