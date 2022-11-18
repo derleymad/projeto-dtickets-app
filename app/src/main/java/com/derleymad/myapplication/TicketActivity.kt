@@ -1,5 +1,6 @@
 package com.derleymad.myapplication
 
+import android.content.ContentProvider
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -84,8 +85,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
             binding.rvMensagens.smoothScrollToPosition(msgs.size-1)
         }
 
-
-
         GetTicketDetailsRequest(this@TicketActivity).execute(username,password,id)
 //        bindPojo(Pojo().getTicketDetail())
 
@@ -126,7 +125,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
         binding.webView.loadUrl(url)
         binding.webView.settings.javaScriptEnabled = true
         var firstTime = true
-
 
         binding.webView.webViewClient = object  : WebViewClient(){
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -279,10 +277,12 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
             if(isFixed){
                 isFixed = false
                 removeTicketFromDB(ticket.id)
+                Snackbar.make(binding.root,"Ticket removido!",Snackbar.LENGTH_SHORT).show()
                 binding.btnFlag.setImageDrawable(ContextCompat.getDrawable(this@TicketActivity,R.drawable.ic_baseline_push_pin_24))
             }else{
                 isFixed = true
                 binding.btnFlag.setImageDrawable(ContextCompat.getDrawable(this@TicketActivity,R.drawable.ic_pin_fixed))
+                Snackbar.make(binding.root,"Ticket fixado!",Snackbar.LENGTH_SHORT).show()
                 insertTicketIntoDB()
             }
         }
@@ -330,6 +330,4 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     override fun onFailure(message: String) {
         Log.e("error","errorTicketActivity onFailure to GetTicketDetailsRequest, $message")
     }
-
-
 }
