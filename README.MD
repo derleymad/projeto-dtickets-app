@@ -15,7 +15,7 @@
   <img src="images/light/login.jpeg" width="200" /> 
   <img src="images/light/tickets.jpeg" width="200" />
     <img src="images/light/fixados.jpeg" width="200" />
-      <img src="images/dark/overview.jpeg" width="200" />
+      <img src="images/light/overview.jpeg" width="200" />
   <img src="images/light/mensagens.jpeg" width="200" />
   <img src="images/light/settings.jpeg" width="200" />
     <img src="images/light/extra.jpeg" width="200" />
