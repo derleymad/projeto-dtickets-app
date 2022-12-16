@@ -1,16 +1,13 @@
 package com.derleymad.myapplication
 
-import android.content.ContentProvider
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.webkit.WebView
@@ -25,7 +22,9 @@ import com.derleymad.myapplication.adapter.TicketMensagemAdapter
 import com.derleymad.myapplication.databinding.ActivityTicketBinding
 import com.derleymad.myapplication.model.FavTicket
 import com.derleymad.myapplication.model.Mensagem
+import com.derleymad.myapplication.model.Ticket
 import com.derleymad.myapplication.model.TicketDetail
+import com.derleymad.myapplication.utils.GetTicketByNumberRequest
 import com.derleymad.myapplication.utils.GetTicketDetailsRequest
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -63,7 +62,6 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
 
         if (!isInteract){
             binding.editSendContainer.visibility = View.GONE
-//            binding.editSendContainer.isEnabled = false
         }else{
             setClickOnMoreBtn(id)
             binding.editSendContainer.visibility = View.VISIBLE
@@ -328,6 +326,9 @@ class TicketActivity : AppCompatActivity(), GetTicketDetailsRequest.Callback{
     }
 
     override fun onFailure(message: String) {
-        Log.e("error","errorTicketActivity onFailure to GetTicketDetailsRequest, $message")
+        Log.e("messageerror",message)
+        Snackbar.make(binding.root,"Sem conexão",Snackbar.LENGTH_SHORT).show()
     }
+
+
 }

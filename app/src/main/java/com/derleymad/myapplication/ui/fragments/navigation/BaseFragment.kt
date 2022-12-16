@@ -1,5 +1,6 @@
 package com.derleymad.myapplication.ui.fragments.navigation
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.*
@@ -10,6 +11,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.derleymad.myapplication.R
+import com.derleymad.myapplication.SearchActivity
 import com.derleymad.myapplication.adapter.PagerAdapter
 import com.derleymad.myapplication.databinding.FragmentBaseBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,13 +45,14 @@ class BaseFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId){
                     R.id.menu_search -> {
+                        val intent = Intent(context,SearchActivity::class.java)
+                        startActivity(intent)
                         true
                     }
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
     }
 
     private fun setupTabLayout() {

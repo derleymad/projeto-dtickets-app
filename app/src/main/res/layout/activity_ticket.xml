@@ -108,6 +108,7 @@
         android:id="@+id/mainContainer"
         style="@style/Theme.MyApplication.RecyclerViewTicketDetail"
         tools:visibility="visible"
+        android:backgroundTint="?attr/colorPrimary"
         android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/ticketToolbar"
         android:layout_width="match_parent"
@@ -226,13 +227,17 @@
             <androidx.recyclerview.widget.RecyclerView
                 style="@style/Theme.MyApplication.RecyclerViewTicketDetail"
                 android:id="@+id/rv_mensagens"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:paddingTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                android:background="@drawable/background_messages"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 tools:listitem="@layout/msg_item_send" />
+
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

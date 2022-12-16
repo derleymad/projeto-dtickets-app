@@ -69,4 +69,9 @@
         <item name="colorControlActivated">@color/blue_enabled</item>
         <!-- inactive thumb color -->
     </style>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlActivated">@android:color/holo_blue_bright</item>
+    </style>
+
 </resources>
