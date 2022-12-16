@@ -75,7 +75,7 @@ class FixadosFragment : Fragment() {
                         isfixed = true,
                         id = i.id,
                         email = i.email,
-                        numero = i.numeroTicket,
+                        numero = i.numeroTicket.subSequence(8,i.numeroTicket.length).toString(),
                         data = i.dataCriacao,
                         de = i.de,
                         prioridade = i.prioridade,
