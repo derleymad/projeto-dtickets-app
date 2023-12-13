@@ -30,7 +30,6 @@ class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         binding = FragmentOverviewBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -109,11 +108,11 @@ class OverviewFragment : Fragment(), GetOverviewRequest.Callback {
         dataSet.iconsOffset = MPPointF(0f, 40f)
         dataSet.selectionShift = 5f
         val colors: ArrayList<Int> = ArrayList()
-        colors.add(resources.getColor(R.color.green_ufca))
+        colors.add(resources.getColor(R.color.blue_enabled))
         colors.add(resources.getColor(R.color.purple_200))
         colors.add(resources.getColor(R.color.emergency_priority))
         colors.add(resources.getColor(R.color.high_priority))
-        colors.add(resources.getColor(R.color.blue_enabled))
+        colors.add(resources.getColor(R.color.green_ufca))
         dataSet.colors = colors
         val data = PieData(dataSet)
         data.setValueTextSize(12f)

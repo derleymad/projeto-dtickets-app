@@ -1,5 +1,6 @@
 package com.derleymad.myapplication.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,12 +47,16 @@ class TicketsAdapter(
             para.text = itemCurrent.para
             data.text = itemCurrent.data
             prioridade.text = itemCurrent.prioridade
+
             if(itemCurrent.type=="aberto"){
                 badge.visibility = View.VISIBLE
                 badge.text = itemCurrent.size
+            }else if(itemCurrent.type=="fechado"){
+//                badge.text = itemCurrent.size
             }else{
                 badge.visibility = View.GONE
             }
+
             prioridade.setTextColor(when(itemCurrent.prioridade){
                 "Emergency" -> itemView.resources.getColor(R.color.emergency_priority)
                 "High" -> itemView.resources.getColor(R.color.high_priority)

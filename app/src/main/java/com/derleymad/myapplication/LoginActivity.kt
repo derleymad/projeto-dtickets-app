@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         if(sharedPreference.getBoolean("autologin",false)){
             val intent = Intent(this@LoginActivity,MainActivity::class.java)
             startActivity(intent)
-            finish()
+//            finish()
         }else{
         }
 
@@ -124,8 +124,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
-                    finish()
+//                    finish()
                 }
+                binding.contentMain.progressBar.visibility = View.GONE
+                binding.contentMain.loginBtnEnter.visibility = View.VISIBLE
             }
         }.start()
     }

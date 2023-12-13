@@ -1,6 +1,8 @@
 package com.derleymad.myapplication.ui.fragments.navigation
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.*
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import com.derleymad.myapplication.LoginActivity
 import com.derleymad.myapplication.R
 import com.derleymad.myapplication.SearchActivity
 import com.derleymad.myapplication.adapter.PagerAdapter
@@ -21,6 +24,8 @@ class BaseFragment : Fragment() {
     private var _binding : FragmentBaseBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var editor : SharedPreferences.Editor
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +34,13 @@ class BaseFragment : Fragment() {
         _binding = FragmentBaseBinding.inflate(inflater,container,false)
         setupTabLayout()
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sharedPreferences = context?.getSharedPreferences("credentials",Context.MODE_PRIVATE)
+        if (sharedPreferences != null) {
+            editor = sharedPreferences.edit()
+        }
         val menuHost : MenuHost = requireActivity()
         val bar = (activity as AppCompatActivity)
         bar.setSupportActionBar(binding.toolbar)
@@ -40,6 +48,7 @@ class BaseFragment : Fragment() {
         menuHost.addMenuProvider(object :MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_search,menu)
+                menuInflater.inflate(R.menu.menu_logout,menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -47,6 +56,13 @@ class BaseFragment : Fragment() {
                     R.id.menu_search -> {
                         val intent = Intent(context,SearchActivity::class.java)
                         startActivity(intent)
+                        true
+                    }
+                    R.id.menu_logout -> {
+                        sharedPreferences?.edit()?.remove("credentials")?.apply()
+                        sharedPreferences?.edit()?.remove("autologin")?.apply()
+//                        val intent = Intent(context,LoginActivity::class.java)
+                        requireActivity().finish()
                         true
                     }
                     else -> false

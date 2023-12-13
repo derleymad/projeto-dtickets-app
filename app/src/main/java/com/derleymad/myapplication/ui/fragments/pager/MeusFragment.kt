@@ -73,6 +73,7 @@ class MeusFragment : Fragment(), GetTicketsMeusRequest.Callback {
     }
 
     override fun onResult(tickets: List<Ticket>) {
+
         binding.rvMeus.visibility = View.VISIBLE
         binding.rvMeus.adapter = TicketsAdapter(tickets) { it -> val intent = Intent(context, TicketActivity::class.java)
             intent.putExtra("id", it)
